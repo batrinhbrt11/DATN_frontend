@@ -1,0 +1,40 @@
+.carousel .carousel-item {
+    height: 100vh;
+}
+.carousel-item img {
+    object-fit: cover;
+    z-index: -1;
+    height: 100vh;
+    filter: brightness(50%);
+}
+.carousel-caption {
+    bottom: calc(100% / 2 - 100px);
+    z-index: 1;
+    font-size: 30px;
+}
+.carousel-caption h3 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+.carousel-caption h6 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.carousel-caption p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 4rem;
+}
+.carousel-caption button {
+    padding: 20px 22px;
+    border: 1px solid #fff;
+    background-color: transparent;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+.carousel-caption button:hover {
+    background-color: #fff;
+    color: #000;
+}

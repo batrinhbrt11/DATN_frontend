@@ -1,0 +1,33 @@
+.spa_title {
+    font-weight: 900;
+    color: #f9a392 !important;
+}
+.footer {
+    color: #fff;
+}
+.spa_title span {
+    color: #fff;
+    font-weight: 900;
+    font-size: calc(1.375rem + 1.5vw);
+}
+div.vertical-line {
+    width: 1px; /* Line width */
+    background-color: white; /* Line color */
+    height: 100%; /* Override in-line if you want specific height. */
+}
+.footer-container p {
+    font-size: 1.5rem;
+}
+.row .col a:hover {
+    text-decoration: underline;
+}
+.row .col a {
+    font-size: 1.5rem;
+}
+.footer-info {
+    font-size: 1.5rem;
+}
+.row .col h3 {
+    font-weight: 900;
+    margin-bottom: 20px;
+}
