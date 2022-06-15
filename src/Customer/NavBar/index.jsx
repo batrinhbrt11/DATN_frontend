@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./style.css";
 import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { BsList, BsX } from "react-icons/bs";
 export default function () {
   const [click, setClick] = useState(false);
 
@@ -10,16 +10,15 @@ export default function () {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <NavLink exact to="/" className="nav-logo">
+        <Link to="/" className="nav-logo">
           SPA CENTER
-        </NavLink>
-
+        </Link>
         <ul className={click ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
             <NavLink
               exact
               to="/"
-              activeClassName="active"
+              activeclassname="active"
               className="nav-links"
               onClick={handleClick}
             >
@@ -29,34 +28,23 @@ export default function () {
           <li className="nav-item">
             <NavLink
               exact
-              to="/about"
-              activeClassName="active"
+              to="/book"
+              activeclassname="active"
               className="nav-links"
               onClick={handleClick}
             >
-              About
+              Book
             </NavLink>
           </li>
+
           <li className="nav-item">
             <NavLink
-              exact
-              to="/blog"
-              activeClassName="active"
+              to="/login"
+              activeclassname="active"
               className="nav-links"
               onClick={handleClick}
             >
-              Blog
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              exact
-              to="/contact"
-              activeClassName="active"
-              className="nav-links"
-              onClick={handleClick}
-            >
-              Contact Us
+              Login
             </NavLink>
           </li>
         </ul>

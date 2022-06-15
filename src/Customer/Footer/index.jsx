@@ -45,7 +45,7 @@ export default function () {
           </Col>
 
           <Col>
-            <Row>
+            <Row className="sub-row">
               <Col>
                 <h3>QUICK LINKS</h3>
                 <a>

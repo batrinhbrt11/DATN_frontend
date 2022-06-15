@@ -118,7 +118,10 @@ export default function index() {
     },
   ];
   return (
-    <div style={{ margin: "30px", textAlign: "center" }} className="carousel">
+    <div
+      style={{ margin: "30px", textAlign: "center", paddingTop: "50px" }}
+      className="carousel"
+    >
       <h6 className="d-inline-block text-primary text-uppercase bg-light py-1 px-2 h6">
         Our Services
       </h6>

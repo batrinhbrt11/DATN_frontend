@@ -8,6 +8,7 @@
     position: sticky;
     top: 0;
     z-index: 20;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .nav-container {
@@ -73,13 +74,24 @@
 
 .nav-item .active {
     color: #f9a392;
-    border: 1px solid #f9a392;
 }
 
 .nav-icon {
     display: none;
 }
-
+.login-button {
+    border-radius: 4px;
+    background-color: #f9a392;
+    font-size: 1.5rem;
+    text-decoration: none;
+    padding: 0 1rem;
+    border: none;
+    color: #fff;
+}
+.login-button:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fd7e14;
+}
 @media screen and (max-width: 960px) {
     .nav-menu {
         display: flex;
@@ -113,9 +125,8 @@
     .nav-icon {
         display: block;
         position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(-100%, 60%);
+        top: 30px;
+        right: 10px;
         font-size: 2rem;
         cursor: pointer;
         color: #f9a392;
