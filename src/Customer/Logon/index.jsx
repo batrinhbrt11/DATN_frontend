@@ -1,52 +1,56 @@
 import React, { useState } from "react";
-import * as Components from "./styled";
+import {
+  BigContainer,
+  Container,
+  BlueBg,
+  SingInContainer,
+  SignInBtn,
+  SignUpContainer,
+  SingUpBtn,
+  Title,
+  FormBx,
+  SignInForm,
+  SignUpForm,
+} from "./styled";
 export default function () {
-  const [signIn, toggle] = useState(false);
+  const [signIn, setSignIn] = useState(true);
   return (
-    <Components.Container>
-      <Components.SignUpContainer signinIn={signIn}>
-        <Components.Form>
-          <Components.Title>Create Account</Components.Title>
-          <Components.Input type="text" placeholder="Name" />
-          <Components.Input type="email" placeholder="Email" />
-          <Components.Input type="password" placeholder="Password" />
-          <Components.Button>Sign Up</Components.Button>
-        </Components.Form>
-      </Components.SignUpContainer>
-
-      <Components.SignInContainer signinIn={signIn}>
-        <Components.Form>
-          <Components.Title>Sign in</Components.Title>
-          <Components.Input type="email" placeholder="Email" />
-          <Components.Input type="password" placeholder="Password" />
-          <Components.Anchor href="#">Forgot your password?</Components.Anchor>
-          <Components.Button>Sigin In</Components.Button>
-        </Components.Form>
-      </Components.SignInContainer>
-
-      <Components.OverlayContainer signinIn={signIn}>
-        <Components.Overlay signinIn={signIn}>
-          <Components.LeftOverlayPanel signinIn={signIn}>
-            <Components.Title>Welcome Back!</Components.Title>
-            <Components.Paragraph>
-              To keep connected with us please login with your personal info
-            </Components.Paragraph>
-            <Components.GhostButton onClick={() => toggle(true)}>
-              Sign In
-            </Components.GhostButton>
-          </Components.LeftOverlayPanel>
-
-          <Components.RightOverlayPanel signinIn={signIn}>
-            <Components.Title>Hello, Friend!</Components.Title>
-            <Components.Paragraph>
-              Enter Your personal details and start journey with us
-            </Components.Paragraph>
-            <Components.GhostButton onClick={() => toggle(false)}>
-              Sigin Up
-            </Components.GhostButton>
-          </Components.RightOverlayPanel>
-        </Components.Overlay>
-      </Components.OverlayContainer>
-    </Components.Container>
+    <BigContainer>
+      <Container>
+        <BlueBg>
+          <SingInContainer>
+            <Title>Already Have an Account?</Title>
+            <SignInBtn onClick={() => setSignIn(true)}>Sign in</SignInBtn>
+          </SingInContainer>
+          <SignUpContainer>
+            <Title>Don't Have an Account?</Title>
+            <SingUpBtn onClick={() => setSignIn(false)}>Sign up</SingUpBtn>
+          </SignUpContainer>
+        </BlueBg>
+        <FormBx signIn={signIn}>
+          <SignInForm signIn={signIn}>
+            <form>
+              <h3>Sign In</h3>
+              <input type="text" placeholder="Username" />
+              <input type="password" placeholder="Password" />
+              <input type="submit" value="Login" />
+              <a href="#">Forgot Password</a>
+            </form>
+          </SignInForm>
+          <SignUpForm signIn={signIn}>
+            <form>
+              <h3>Sign Up</h3>
+              <input type="text" placeholder="Email" />
+              <input type="text" placeholder="Username" />
+              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Confirm Password" />
+              <input type="date"></input>
+              <input type="submit" value="Register" />
+              <a href="#">Forgot Password</a>
+            </form>
+          </SignUpForm>
+        </FormBx>
+      </Container>
+    </BigContainer>
   );
 }

@@ -30,3 +30,12 @@ export const Form = styled.div`
   border: 1px solid rgba(34, 34, 34, 0.3);
   background: rgba(34, 34, 34, 0.72);
 `;
+export const ContentContainer = styled.div`
+  margin-top: 30px;
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  height: 400px;
+`;

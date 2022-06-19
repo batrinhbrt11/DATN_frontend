@@ -7,9 +7,7 @@ export default function Login() {
   return (
     <div>
       <NavBar />
-      <Container>
-        <Logon />
-      </Container>
+      <Logon />
     </div>
   );
 }

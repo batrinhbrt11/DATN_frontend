@@ -4,6 +4,7 @@ import Customer from "./Customer";
 import Admin from "./Admin";
 import Book from "./Customer/Book";
 import Login from "./Customer/Login";
+import Info from "./Customer/Info";
 function App() {
   return (
     <div className="App">
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Customer />}></Route>
           <Route path="/book" element={<Book />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/info" element={<Info />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
         </Routes>
       </BrowserRouter>

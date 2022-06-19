@@ -32,3 +32,28 @@ h6.d-inline-block.text-white.text-uppercase.bg-primary.py-1.px-2 {
   background-color: rgb(249, 163, 146) !important;
   color: #fff !important;
 }
+.css-10w330c-MuiButtonBase-root-MuiPaginationItem-root {
+  font-size: 1.25rem !important;
+}
+
+@media screen and (max-width: 768px) {
+  .MuiDialogTitle-root + .css-ypiqx9-MuiDialogContent-root {
+    width: 250px !important;
+  }
+}
+.css-6od3lo-MuiChip-label {
+  color: #fff !important;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  color: #fff !important;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input:focus {
+  border: white !important;
+}
+.css-5z9me9-MuiAutocomplete-root .MuiOutlinedInput-root {
+  border: 1px solid white !important;
+  color: white !important;
+}
+.css-ptiqhd-MuiSvgIcon-root {
+  color: white !important;
+}
