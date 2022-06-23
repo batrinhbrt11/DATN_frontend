@@ -15,6 +15,7 @@ export default function Profile() {
           endIcon={<EditIcon />}
           className="edit-btn"
           onClick={() => setEdit(!edit)}
+          sx={{ fontSize: "2rem" }}
         >
           Edit
         </Button>

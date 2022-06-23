@@ -119,6 +119,7 @@ export const FormBx = styled.div`
         ? `left:0;
         top:150px;`
         : null}
+  }
 `;
 export const SignInForm = styled.div`
   position: absolute;

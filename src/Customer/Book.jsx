@@ -1,5 +1,4 @@
 import React from "react";
-import About from "./About";
 import Appointment from "./Appointment";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
