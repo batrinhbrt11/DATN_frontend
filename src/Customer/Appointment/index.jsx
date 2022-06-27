@@ -16,8 +16,10 @@ export default function () {
   return (
     <Container>
       <Form>
-        <Row>
-          <h1>Make Appointment</h1>
+        <Row style={{ width: "100%" }}>
+          <h1 style={{ width: "100%", textAlign: "center" }}>
+            Make Appointment
+          </h1>
         </Row>
         <Row>
           <Column>
@@ -50,7 +52,7 @@ export default function () {
             </Column>
           </Row>
         </LocalizationProvider>
-        <Row>
+        {/* <Row>
           <Autocomplete
             multiple
             limitTags={2}
@@ -66,7 +68,7 @@ export default function () {
             )}
             sx={autocomplete}
           />
-        </Row>
+        </Row> */}
         <Row>
           <ServicesBtn>Make Appointment</ServicesBtn>
         </Row>
@@ -90,10 +92,11 @@ const Container = styled.div`
 const Input = styled.input`
   padding: 10px;
   background-color: transparent;
-  border: 1px solid #fff;
+  border: 1px solid #999;
   font-size: 1.5rem;
-  color: #fff;
+  color: #000;
   width: 100%;
+  border-radius: 10px;
 `;
 const ServicesBtn = styled.button`
   border-radius: 4px;
@@ -105,7 +108,7 @@ const ServicesBtn = styled.button`
   cursor: pointer;
   font-weight: 600;
   border-color: #f9a392;
-  font-size: 1rem;
+  font-size: 1.5rem;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   width: 100%;

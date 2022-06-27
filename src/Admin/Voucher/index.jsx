@@ -31,13 +31,10 @@ const rows = [
   createData("Eclair", 262, 16.0, 24, 6.0),
   createData("Cupcake", 305, 3.7, 67, 4.3),
   createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
-
 export default function () {
   const navigate = useNavigate();
   const [openDeleteBox, setopenDeleteBox] = useState(false);
@@ -55,12 +52,12 @@ export default function () {
   return (
     <TableContainer>
       <TableHeader>
-        <h2>Customers</h2>
+        <h2>Vouchers</h2>
         <Button
           variant="contained"
           className="edit-btn"
           sx={{ fontSize: "2rem" }}
-          onClick={() => navigate("/admin/customers/add")}
+          onClick={() => navigate("/admin/vouchers/add")}
         >
           Add
         </Button>
@@ -87,19 +84,13 @@ export default function () {
               <StyledTableCell align="right">{row.carbs}</StyledTableCell>
               <StyledTableCell align="right">{row.protein}</StyledTableCell>
               <StyledTableCell align="right">
-                <IconButton
-                  aria-label="edit"
-                  onClick={() => navigate("/admin/customers/2/edit")}
-                >
-                  <ModeEditIcon sx={{ color: "#999", fontSize: "2rem" }} />
-                </IconButton>
                 <IconButton aria-label="delete" onClick={handleClickOpen}>
                   <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
                 <IconButton aria-label="show">
                   <RemoveRedEyeIcon
                     sx={{ color: "#999", fontSize: "2rem" }}
-                    onClick={() => navigate("/admin/customers/2/show")}
+                    onClick={() => navigate("/admin/vouchers/2")}
                   />
                 </IconButton>
               </StyledTableCell>
@@ -127,7 +118,7 @@ export default function () {
             id="alert-dialog-description"
             sx={{ fontSize: "2.5rem" }}
           >
-            Do you want to remove this record ?
+            Do you want remove this record ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

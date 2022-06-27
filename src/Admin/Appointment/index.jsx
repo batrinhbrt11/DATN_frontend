@@ -34,6 +34,7 @@ const appointments = [
     startDate: "2018-11-01T12:00",
     endDate: "2018-11-01T13:30",
     title: "Go to a gym",
+    notes: "sadasdasd",
   },
 ];
 
@@ -42,6 +43,7 @@ export default function () {
   const [currentViewName, setCurrentViewName] = useState("work-week");
   const commitChanges = ({ added, changed, deleted }) => {
     if (added) {
+      console.log(added);
       const startingAddedId =
         data.length > 0 ? data[data.length - 1].id + 1 : 0;
       console.log(added);

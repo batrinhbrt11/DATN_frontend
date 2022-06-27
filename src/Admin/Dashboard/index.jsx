@@ -81,12 +81,12 @@ export default function () {
         </Card>
       </CardBox>
       <Details>
-        <TableContainer>
+        <TableContainer style={{ marginBottom: "30px" }}>
           <TableHeader>
             <h2>Recent Customers</h2>
             <Link to="/admin/customer">View All</Link>
           </TableHeader>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ width: "100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Dessert (100g serving)</StyledTableCell>
@@ -120,7 +120,7 @@ export default function () {
             <h2>Recent Customers</h2>
             <Link to="/admin/customer">View All</Link>
           </TableHeader>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ width: "100%" }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Dessert (100g serving)</StyledTableCell>

@@ -1,22 +1,48 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 
-export const BigContainer = styled.div`
+export default function () {
+  const [signIn, setSignIn] = useState(true);
+  return (
+    <BigContainer>
+      <Container>
+        <BlueBg>
+          <SingInContainer></SingInContainer>
+          <SignUpContainer>
+            <Title>Login to Admin Dashboard</Title>
+          </SignUpContainer>
+        </BlueBg>
+        <FormBx signIn={signIn}>
+          <SignInForm signIn={signIn}>
+            <form>
+              <h3>Sign In</h3>
+              <input type="text" placeholder="Username" />
+              <input type="password" placeholder="Password" />
+              <input type="submit" value="Login" />
+            </form>
+          </SignInForm>
+        </FormBx>
+      </Container>
+    </BigContainer>
+  );
+}
+
+const BigContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 10px;
-  height: calc(100vh - 80px);
+  height: 100vh;
   background: #f9a392;
   width: 100%;
   transition: 0.5s;
   @media (max-width: 991px) {
-    height: 100%;
   }
 `;
-export const Container = styled.div`
+const Container = styled.div`
   position: relative;
   width: 1000px;
-  height: 500px;
+  height: 800px;
   margin: 20px;
   @media (max-width: 991px) {
     max-width: 400px;
@@ -26,14 +52,14 @@ export const Container = styled.div`
     align-items: center;
   }
 `;
-export const BlueBg = styled.div`
+const BlueBg = styled.div`
   position: absolute;
   top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 450px;
+  height: 720px;
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
   @media (max-width: 991px) {
@@ -42,7 +68,7 @@ export const BlueBg = styled.div`
   }
 `;
 
-export const SingInContainer = styled.div`
+const SingInContainer = styled.div`
   position: relative;
   width: 50%;
   height: 100%;
@@ -59,7 +85,7 @@ export const SingInContainer = styled.div`
   }
 `;
 
-export const SignUpContainer = styled.div`
+const SignUpContainer = styled.div`
   position: relative;
   width: 50%;
   height: 100%;
@@ -74,13 +100,14 @@ export const SignUpContainer = styled.div`
     bottom: 0;
   }
 `;
-export const Title = styled.h2`
+const Title = styled.h2`
+  text-align: center;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 3rem;
   font-weight: 500px;
   margin-bottom: 10px;
 `;
-export const SignInBtn = styled.button`
+const SignInBtn = styled.button`
   cursor: pointer;
   padding: 10px 20px;
   background: #fff;
@@ -89,7 +116,7 @@ export const SignInBtn = styled.button`
   font-weight: 500;
   border: none;
 `;
-export const SingUpBtn = styled.button`
+const SingUpBtn = styled.button`
   cursor: pointer;
   padding: 10px 20px;
   background: #fff;
@@ -98,7 +125,7 @@ export const SingUpBtn = styled.button`
   font-weight: 500;
   border: none;
 `;
-export const FormBx = styled.div`
+const FormBx = styled.div`
   position: absolute;
   overflow: hidden;
   top: 0;
@@ -125,7 +152,7 @@ export const FormBx = styled.div`
         : null}
   }
 `;
-export const SignInForm = styled.div`
+const SignInForm = styled.div`
   position: absolute;
   left: 0;
   width: 100%;
@@ -165,7 +192,7 @@ export const SignInForm = styled.div`
   }
 `;
 
-export const SignUpForm = styled.div`
+const SignUpForm = styled.div`
   position: absolute;
   left: 100%;
   width: 100%;

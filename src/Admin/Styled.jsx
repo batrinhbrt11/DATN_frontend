@@ -166,6 +166,9 @@ export const CardBox = styled.div`
   @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 export const CardNumber = styled.div`
   position: relative;
@@ -208,6 +211,14 @@ export const TableContainer = styled.div`
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   margin: 30px;
+  @media (max-width: 800px) {
+    margin: 0;
+    width: 100%;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+  }
 `;
 
 export const TableHeader = styled.div`
@@ -229,12 +240,68 @@ export const TableHeader = styled.div`
     font-weight: 700;
     font-size: 1.5rem;
   }
-  & table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+  @media (max-width: 700px) {
+    display: block;
   }
-  & table thead td {
-    font-weight: 600;
+`;
+
+export const FormContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+  padding: 20px;
+`;
+export const SelectBox = styled.div`
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+  & > span {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+`;
+export const InputBox = styled.div`
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+  & span {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  & input {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+    &:focus,
+    &:valid {
+      border-color: #dfdfdf;
+    }
+  }
+  & input[type="submit"],
+  & button {
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9a392;
+  }
+  & button {
+    width: 100%;
+    padding: 10px;
+  }
+  @media (max-width: 584px) {
+    margin-bottom: 15px;
+    width: 100%;
   }
 `;

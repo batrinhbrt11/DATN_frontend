@@ -8,21 +8,21 @@
     filter: brightness(50%);
 }
 .carousel-caption {
-    bottom: calc(100% / 2 - 100px);
+    bottom: calc(100% / 2 - 200px);
     z-index: 1;
-    font-size: 30px;
+    font-size: 2.5rem;
 }
 .carousel-caption h3 {
-    font-size: 3rem;
+    font-size: 5rem;
     margin-bottom: 1rem;
 }
 .carousel-caption h6 {
-    font-size: 2.5rem;
+    font-size: 5rem;
     font-weight: 600;
     margin-bottom: 1rem;
 }
 .carousel-caption p {
-    font-size: 1.5rem;
+    font-size: 3rem;
     font-weight: 600;
     margin-bottom: 4rem;
 }
@@ -30,11 +30,33 @@
     padding: 20px 22px;
     border: 1px solid #fff;
     background-color: transparent;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 600;
     color: #fff;
 }
 .carousel-caption button:hover {
     background-color: #fff;
     color: #000;
+}
+.carousel-indicators {
+    display: none !important;
+}
+@media screen and (max-width: 960px) {
+    .carousel-caption {
+        z-index: 1;
+        font-size: 10px;
+    }
+    .carousel-caption h3 {
+        font-size: 3rem;
+    }
+    .carousel-caption h6 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    .carousel-caption p {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 4rem;
+    }
 }

@@ -20,7 +20,7 @@ export default function () {
               dolor sed sit et sed ipsum et kasd erat duo eos et erat
             </p>
             <div className="row pt-3">
-              <div className="col-6">
+              <div className="col-6 card-about">
                 <div className="bg-light text-center p-4">
                   <h3
                     className="display-4 text-primary h3"
@@ -31,7 +31,7 @@ export default function () {
                   <h6 className="text-uppercase h6">Spa Specialist</h6>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-6 card-about">
                 <div className="bg-light text-center p-4">
                   <h3
                     className="display-4 text-primary h3"

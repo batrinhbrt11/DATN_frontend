@@ -45,3 +45,40 @@ button.css-mf1cb5-MuiButtonBase-root-MuiIconButton-root
     color: black !important;
     font-size: 2rem !important;
 }
+.css-iz0jrc-MuiButtonBase-root-MuiButton-root.SaveButton-button {
+    background-color: rgb(249, 163, 146) !important;
+}
+.css-fr051l-MuiFormControlLabel-root .MuiFormControlLabel-label {
+    font-size: 2rem;
+}
+.css-1tazxmh .Layout-booleanEditors {
+    display: none;
+}
+.css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root textarea {
+    font-size: 2rem;
+}
+.css-nupfgw-MuiGrid-root.Layout-basic
+    .css-692fze-MuiButtonBase-root-MuiIconButton-root.CancelButton-button
+    svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+    color: black;
+    font-size: 2.5rem;
+}
+.css-1xfj18-MuiButtonBase-root-MuiIconButton-root.DeleteButton-button
+    svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+    color: #999;
+    font-size: 2.5rem;
+}
+.css-nupfgw-MuiGrid-root.Layout-basic .css-iz0jrc-MuiButtonBase-root-MuiButton-root.SaveButton-button {
+    color: #fff;
+    font-size: 1.5rem;
+}
+.css-qzbt6i-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator
+    svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+    color: #000 !important;
+    font-size: 1.5rem;
+}
+.css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator
+    svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall.css-ptiqhd-MuiSvgIcon-root {
+    color: #000 !important;
+    font-size: 1.5rem;
+}

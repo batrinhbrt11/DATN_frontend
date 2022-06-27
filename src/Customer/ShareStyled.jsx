@@ -1,13 +1,18 @@
 import styled from "styled-components";
 
 export const Row = styled.div`
-  &: {
-    content: "";
-    display: table;
-    clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+  color: rgb(249, 163, 146);
+  @media (max-width: 584px) {
+    max-height: 290px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
   }
-  text-align: center;
-  color: #fff;
 `;
 export const Column = styled.div`
   float: left;
@@ -28,7 +33,7 @@ export const Form = styled.div`
   backdrop-filter: blur(3.4px);
   -webkit-backdrop-filter: blur(3.4px);
   border: 1px solid rgba(34, 34, 34, 0.3);
-  background: rgba(34, 34, 34, 0.72);
+  background: #fff;
 `;
 export const ContentContainer = styled.div`
   margin-top: 30px;

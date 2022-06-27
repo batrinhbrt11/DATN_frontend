@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./style.css";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 export default function () {
   const [click, setClick] = useState(false);
-
   const handleClick = () => setClick(!click);
   return (
     <nav className="navbar">
@@ -36,7 +36,6 @@ export default function () {
               Book
             </NavLink>
           </li>
-
           <li className="nav-item">
             <NavLink
               to="/login"
@@ -45,6 +44,26 @@ export default function () {
               onClick={handleClick}
             >
               Login
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              to="/info"
+              activeclassname="active"
+              className="nav-links"
+              onClick={handleClick}
+            >
+              Account
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink
+              to="/info"
+              activeclassname="active"
+              className="nav-links"
+              onClick={handleClick}
+            >
+              Log out
             </NavLink>
           </li>
         </ul>

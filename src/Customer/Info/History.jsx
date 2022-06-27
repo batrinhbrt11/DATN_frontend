@@ -64,7 +64,7 @@ export default function History() {
           </ItemCard>
         </Content>
         <Stack spacing={2}>
-          <Pagination count={10} shape="rounded" sx={{ fontSize: "1.5rem" }} />
+          <Pagination count={10} shape="rounded" />
         </Stack>
         <HistoryModal open={open} setOpen={setOpen} />
       </ContentContainer>

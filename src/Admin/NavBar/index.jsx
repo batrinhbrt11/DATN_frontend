@@ -9,57 +9,57 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link } from "react-router-dom";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-export default function ({ showNav }) {
+export default function ({ showNav, setShowNav }) {
   return (
     <Navigation showNav={showNav}>
       <ul>
         <li>
-          <Link to="/admin">
+          <Link to="/admin" onClick={() => setShowNav(false)}>
             <span className="title">Spa Center</span>
           </Link>
         </li>
         <li>
-          <Link to="/admin">
+          <Link to="/admin" onClick={() => setShowNav(false)}>
             <DashboardIcon className="icon" />
             <span className="title">Dashboard</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/admin/customers">
+          <Link to="/admin/customers" onClick={() => setShowNav(false)}>
             <GroupIcon className="icon" />
             <span className="title">Customers</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/admin/appointment">
+          <Link to="/admin/appointment" onClick={() => setShowNav(false)}>
             <CalendarMonthIcon className="icon" />
             <span className="title">Appointment</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/admin/services">
+          <Link to="/admin/services" onClick={() => setShowNav(false)}>
             <SpaIcon className="icon" />
             <span className="title">Services</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/admin/bill">
+          <Link to="/admin/bills" onClick={() => setShowNav(false)}>
             <AttachMoneyIcon className="icon" />
             <span className="title">Bill</span>
           </Link>
         </li>
         <li>
-          <Link to="/admin/bill">
+          <Link to="/admin/vouchers" onClick={() => setShowNav(false)}>
             <CardGiftcardIcon className="icon" />
             <span className="title">Voucher</span>
           </Link>
         </li>
         <li>
-          <Link to="/">
+          <Link to="/" onClick={() => setShowNav(false)}>
             <ExitToAppIcon className="icon" />
             <span className="title">Log out</span>
           </Link>
