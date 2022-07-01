@@ -10,13 +10,12 @@ export const BigContainer = styled.div`
   width: 100%;
   transition: 0.5s;
   @media (max-width: 991px) {
-    height: 100%;
   }
 `;
 export const Container = styled.div`
   position: relative;
   width: 1000px;
-  height: 500px;
+  height: 700px;
   margin: 20px;
   @media (max-width: 991px) {
     max-width: 400px;
@@ -33,7 +32,7 @@ export const BlueBg = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 450px;
+  height: 630px;
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
   @media (max-width: 991px) {
@@ -140,14 +139,15 @@ export const SignInForm = styled.div`
     flex-direction: column;
   }
   & form h3 {
-    font-size: 1.5rem;
+    font-size: 3rem;
+    text-align: center;
     color: #333;
     margin-bottom: 20px;
-    font-weight: 500;
+    font-weight: 800;
   }
   & form input {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 10px;
     outline: none;
     font-size: 16px;
@@ -162,6 +162,10 @@ export const SignInForm = styled.div`
   }
   & form a {
     color: #333;
+  }
+  & form p {
+    font-size: 1.5rem;
+    color: #df0029d9;
   }
 `;
 
@@ -180,14 +184,15 @@ export const SignUpForm = styled.div`
     flex-direction: column;
   }
   & form h3 {
-    font-size: 1.5rem;
+    font-size: 3rem;
+    text-align: center;
     color: #333;
     margin-bottom: 20px;
-    font-weight: 500;
+    font-weight: 800;
   }
   & form input {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 10px;
     outline: none;
     font-size: 16px;
@@ -202,5 +207,9 @@ export const SignUpForm = styled.div`
   }
   & form a {
     color: #333;
+  }
+  & form p {
+    font-size: 1.5rem;
+    color: #df0029d9;
   }
 `;

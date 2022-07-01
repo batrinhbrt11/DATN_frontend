@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { useSelector } from "react-redux";
+import { logout, selectCus } from "../../redux/cusAuthSlice";
+import { useDispatch } from "react-redux";
 export default function () {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
+  const dispatch = useDispatch();
+  const handleLogout = (e) => {
+    dispatch(logout());
+    localStorage.setItem("token", JSON.stringify(null));
+  };
+  const token = useSelector(selectCus);
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -36,36 +43,36 @@ export default function () {
               Book
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink
-              to="/login"
-              activeclassname="active"
-              className="nav-links"
-              onClick={handleClick}
-            >
-              Login
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              to="/info"
-              activeclassname="active"
-              className="nav-links"
-              onClick={handleClick}
-            >
-              Account
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              to="/info"
-              activeclassname="active"
-              className="nav-links"
-              onClick={handleClick}
-            >
-              Log out
-            </NavLink>
-          </li>
+
+          {token !== null ? (
+            <>
+              <li className="nav-item">
+                <NavLink
+                  to="/info"
+                  activeclassname="active"
+                  className="nav-links"
+                  onClick={handleClick}
+                >
+                  Account
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/login"
+                  className="nav-links"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <li className="nav-item">
+              <NavLink to="/login" className="nav-links" onClick={handleClick}>
+                Login
+              </NavLink>
+            </li>
+          )}
         </ul>
         <div className="nav-icon" onClick={handleClick}>
           <i className={click ? "fas fa-times" : "fas fa-bars"}></i>

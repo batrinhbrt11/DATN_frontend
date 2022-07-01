@@ -38,7 +38,6 @@
     display: flex;
     list-style: none;
     text-align: center;
-    margin-right: 2rem;
 }
 
 .nav-links {
@@ -80,21 +79,18 @@
 .nav-icon {
     display: none;
 }
-.login-button {
-    border-radius: 4px;
-    background-color: #f9a392;
-    font-size: 1.5rem;
-    text-decoration: none;
-    padding: 0 1rem;
-    border: none;
-    color: #fff;
-}
-.login-button:hover {
-    transition: all 0.2s ease-in-out;
-    background: #fd7e14;
-}
+
 .navbar {
     border-radius: 0 !important;
+}
+.nav-button {
+    background-color: #f9a392 !important;
+    color: #fff;
+}
+.nav-button:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fd7e14;
+    color: #fff;
 }
 @media screen and (max-width: 960px) {
     .nav-menu {
@@ -108,7 +104,12 @@
         opacity: 1;
         transition: all 0.5s ease;
     }
-
+    li.nav-item {
+        margin-right: 0 !important;
+    }
+    ul.nav-menu.active {
+        padding-right: 20px;
+    }
     .nav-menu.active {
         background: #fff;
         left: 0px;
