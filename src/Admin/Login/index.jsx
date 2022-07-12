@@ -1,8 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/cusAuthSlice";
+import { useNavigate } from "react-router-dom";
+import { adminLogin } from "./api";
 export default function () {
   const [signIn, setSignIn] = useState(true);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const [errorPassword, setErrorPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onLogin = async (data) => {
+    const res = await adminLogin(data);
+    if (res.status === 200) {
+      dispatch(login(res.data));
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      navigate("/admin");
+      window.location.reload();
+    } else if (res.status === 404) {
+      setErrorPassword(res.data);
+    }
+  };
   return (
     <BigContainer>
       <Container>
@@ -14,10 +39,29 @@ export default function () {
         </BlueBg>
         <FormBx signIn={signIn}>
           <SignInForm signIn={signIn}>
-            <form>
-              <h3>Sign In</h3>
-              <input type="text" placeholder="Username" />
-              <input type="password" placeholder="Password" />
+            <form onSubmit={handleSubmit(onLogin)}>
+              <h3>Login to Dashboard</h3>
+              <p>{errorPassword}</p>
+              <input
+                type="text"
+                placeholder="Username"
+                {...register("username", {
+                  required: "Name is not empty",
+                })}
+              />
+              <p>{errors.username?.message}</p>
+              <input
+                type="password"
+                placeholder="Password"
+                {...register("password", {
+                  required: "Password is not empty",
+                  minLength: {
+                    value: 6,
+                    message: "A minimum password length greater than 6",
+                  },
+                })}
+              />
+              <p>{errors.password?.message}</p>
               <input type="submit" value="Login" />
             </form>
           </SignInForm>
@@ -189,6 +233,10 @@ const SignInForm = styled.div`
   }
   & form a {
     color: #333;
+  }
+  & form p {
+    font-size: 1.5rem;
+    color: #df0029d9;
   }
 `;
 

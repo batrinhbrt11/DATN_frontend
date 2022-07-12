@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { ContentContainer } from "../ShareStyled";
+import {
+  CardContent,
+  Content,
+  ContentContainer,
+  ItemCard,
+} from "../ShareStyled";
 import "./style.css";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -63,41 +68,9 @@ export default function History() {
             </IconButton>
           </ItemCard>
         </Content>
-        <Stack spacing={2}>
-          <Pagination count={10} shape="rounded" />
-        </Stack>
+
         <HistoryModal open={open} setOpen={setOpen} />
       </ContentContainer>
     </div>
   );
 }
-const Content = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 20px 0 5px 0;
-
-  @media (max-width: 584px) {
-    max-height: 280px;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {
-      width: 5px;
-    }
-  }
-`;
-const ItemCard = styled.div`
-  margin-bottom: 15px;
-  width: calc(100% / 2 - 20px);
-  color: #fff;
-  background-color: #f9a392;
-  padding: 25px 30px;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-  display: flex;
-  justify-content: space-between;
-  @media (max-width: 584px) {
-    margin-bottom: 15px;
-    width: 100%;
-  }
-`;
-const CardContent = styled.div``;

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { TableContainer, TableHeader } from "../Styled";
+import React, { useEffect, useState } from "react";
 import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -15,81 +14,66 @@ import {
 } from "../TableStyled";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-export default function () {
+import {useDispatch, useSelector } from "react-redux";
+import { deleteVoucher } from "../../redux/VoucherSlice";
+export default function VoucherTable({ data,user }) {
   const navigate = useNavigate();
   const [openDeleteBox, setopenDeleteBox] = useState(false);
-
-  const handleClickOpen = () => {
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
+  const dispatch = useDispatch();
+  const [itemDelete,setItemDelete] = useState("")
+  const handleClickOpen = (id) => {
+    setItemDelete(id)
     setopenDeleteBox(true);
   };
-
   const handleClose = () => {
+    setItemDelete("")
     setopenDeleteBox(false);
   };
   const handleDelete = () => {
+    dispatch(deleteVoucher(itemDelete))
     setopenDeleteBox(false);
   };
+  const length = useSelector((state) => state.vouchers.length);
+  const [rows, setRows] = useState(
+    data.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+  );
+  useEffect(() => {
+    setRows(data.slice((page - 1) * rowsPerPage, page * rowsPerPage));
+  }, [data, page]);
   return (
-    <TableContainer>
-      <TableHeader>
-        <h2>Bill</h2>
-        <Button
-          variant="contained"
-          className="edit-btn"
-          sx={{ fontSize: "2rem" }}
-          onClick={() => navigate("/admin/bills/add")}
-        >
-          Add
-        </Button>
-      </TableHeader>
+    <div>
       <StyledTableContainer aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>Voucher Name</StyledTableCell>
+            <StyledTableCell align="right">Voucher Code</StyledTableCell>
+            <StyledTableCell align="right">Duration</StyledTableCell>
+
             <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row._id}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {row.voucherName}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="right">{row.voucherCode}</StyledTableCell>
+              <StyledTableCell align="right">{row.duration}</StyledTableCell>
               <StyledTableCell align="right">
-                <IconButton aria-label="delete" onClick={handleClickOpen}>
+                <IconButton aria-label="delete" onClick={()=>handleClickOpen(row._id)}>
                   <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
                 <IconButton
                   aria-label="show"
-                  onClick={() => navigate("/admin/bills/2")}
+                  onClick={() => navigate(`/admin/vouchers/${row._id}`)}
                 >
                   <RemoveRedEyeIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
@@ -99,7 +83,11 @@ export default function () {
         </TableBody>
       </StyledTableContainer>
       <Stack spacing={2}>
-        <Pagination count={10} shape="rounded" />
+        <Pagination
+          count={rows && Math.ceil(length / rowsPerPage)}
+          shape="rounded"
+          onChange={(e, value) => setPage(value)}
+        />
       </Stack>
       <Dialog
         open={openDeleteBox}
@@ -128,6 +116,6 @@ export default function () {
           </Button>
         </DialogActions>
       </Dialog>
-    </TableContainer>
+    </div>
   );
 }

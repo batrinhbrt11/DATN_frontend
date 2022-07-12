@@ -7,9 +7,12 @@ import Login from "./Customer/Login";
 import Info from "./Customer/Info";
 import { useSelector } from "react-redux";
 
-import { selectCus } from "./redux/cusAuthSlice";
+import { selectToken, selectUser } from "./redux/cusAuthSlice";
+
 function App() {
-  const token = useSelector(selectCus);
+  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,7 +24,10 @@ function App() {
             path="/info"
             element={token === null ? <Login /> : <Info />}
           ></Route>
-          <Route path="/admin/*" element={<Admin />}></Route>
+          <Route
+            path="/admin/*"
+            element={user.role !== "customer" ? <Admin /> : <Customer />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

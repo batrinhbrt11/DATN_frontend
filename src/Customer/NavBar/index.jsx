@@ -3,7 +3,7 @@ import "./style.css";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { logout, selectCus } from "../../redux/cusAuthSlice";
+import { logout, selectToken } from "../../redux/cusAuthSlice";
 import { useDispatch } from "react-redux";
 export default function () {
   const [click, setClick] = useState(false);
@@ -11,9 +11,10 @@ export default function () {
   const dispatch = useDispatch();
   const handleLogout = (e) => {
     dispatch(logout());
+    localStorage.setItem("user", JSON.stringify(null));
     localStorage.setItem("token", JSON.stringify(null));
   };
-  const token = useSelector(selectCus);
+  const token = useSelector(selectToken);
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -23,7 +24,7 @@ export default function () {
         <ul className={click ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
             <NavLink
-              exact
+              exact="true"
               to="/"
               activeclassname="active"
               className="nav-links"
@@ -34,7 +35,7 @@ export default function () {
           </li>
           <li className="nav-item">
             <NavLink
-              exact
+              exact="true"
               to="/book"
               activeclassname="active"
               className="nav-links"

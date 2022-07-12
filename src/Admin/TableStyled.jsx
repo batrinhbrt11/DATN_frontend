@@ -27,6 +27,10 @@ export const StyledTableContainer = styled(Table)(({ theme }) => ({
   border: "1px solid rgb(249, 163, 146)",
   marginBottom: "10px",
   width: "100%",
+  overflowX: "scroll",
+  "&::-webkit-scrollbar": {
+    width: "5px",
+  },
   " @media (max-width: 800px)": {
     margin: 0,
     width: "100%",

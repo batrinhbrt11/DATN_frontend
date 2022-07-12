@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ButtonBox,
   FormContainer,
   InputBox,
   SelectBox,
@@ -103,10 +104,9 @@ export default function AddBill() {
             </div>
           </SelectBox>
 
-          <InputBox></InputBox>
-          <InputBox>
+          <ButtonBox>
             <input type="submit" value="Save" />
-          </InputBox>
+          </ButtonBox>
         </FormContainer>
       </div>
     </TableContainer>

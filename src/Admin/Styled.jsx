@@ -204,13 +204,17 @@ export const Details = styled.div`
 `;
 export const TableContainer = styled.div`
   position: relative;
-  display: grid;
   min-height: 500px;
+
   background: var(--white);
   padding: 20px;
   box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   margin: 30px;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+      width: 5px;
+    }
   @media (max-width: 800px) {
     margin: 0;
     width: 100%;
@@ -227,6 +231,7 @@ export const TableHeader = styled.div`
   align-items: flex-start;
   padding-bottom: 20px;
   & h2 {
+    font-size: 2rem;
     font-weight: 600;
     color: var(--blue);
   }
@@ -245,7 +250,7 @@ export const TableHeader = styled.div`
   }
 `;
 
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -261,6 +266,29 @@ export const SelectBox = styled.div`
     margin-bottom: 5px;
   }
 `;
+export const ButtonBox = styled.div`
+  margin-bottom: 15px;
+  margin-top: 15px;
+  width: 100%;
+  & input[type="submit"],
+  & button {
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9a392;
+  }
+  & button {
+    width: 100%;
+    padding: 10px;
+  }
+`;
 export const InputBox = styled.div`
   margin-bottom: 15px;
   width: calc(100% / 2 - 20px);
@@ -268,6 +296,10 @@ export const InputBox = styled.div`
     display: block;
     font-weight: 500;
     margin-bottom: 5px;
+  }
+  & p {
+    font-size: 1.5rem;
+    color: #df0029d9;
   }
   & input {
     height: 45px;
@@ -284,22 +316,7 @@ export const InputBox = styled.div`
       border-color: #dfdfdf;
     }
   }
-  & input[type="submit"],
-  & button {
-    border-radius: 5px;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: #f9a392;
-  }
-  & button {
-    width: 100%;
-    padding: 10px;
-  }
+
   @media (max-width: 584px) {
     margin-bottom: 15px;
     width: 100%;

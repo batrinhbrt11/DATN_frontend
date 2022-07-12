@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TableContainer, TableHeader } from "../Styled";
 import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
@@ -15,40 +15,44 @@ import {
 } from "../TableStyled";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+import { useDispatch, useSelector } from "react-redux";
+import { deleteService, getAllService } from "../../redux/serviceSlice";
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 export default function () {
   const navigate = useNavigate();
   const [openDeleteBox, setopenDeleteBox] = useState(false);
-
-  const handleClickOpen = () => {
+  const [page, setPage] = useState(1);
+  const length = useSelector((state) => state.services.length);
+  const dispatch = useDispatch();
+  const rowsPerPage = 10;
+  const [itemDelete,setItemDelete] = useState("")
+  const handleClickOpen = (id) => {
+    setItemDelete(id)
     setopenDeleteBox(true);
   };
 
   const handleClose = () => {
+    setItemDelete("")
     setopenDeleteBox(false);
   };
   const handleDelete = () => {
+    dispatch(deleteService(itemDelete))
     setopenDeleteBox(false);
   };
+
+  const data = useSelector((state) => state.services);
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    dispatch(getAllService());
+  }, [dispatch]);
+  useEffect(() => {
+    setRows(data.services.slice((page - 1) * rowsPerPage, page * rowsPerPage));
+  }, [data,page]);
   return (
     <TableContainer>
       <TableHeader>
@@ -65,33 +69,28 @@ export default function () {
       <StyledTableContainer aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>Index</StyledTableCell>
+            <StyledTableCell align="right">Name</StyledTableCell>
             <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+          {rows?.map((row,index) => (
+            <StyledTableRow key={row._id}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {index + 1}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="right">{row.name}</StyledTableCell>
+              
               <StyledTableCell align="right">
-                <IconButton aria-label="delete" onClick={handleClickOpen}>
+                <IconButton aria-label="delete"onClick={()=>handleClickOpen(row._id)}>
                   <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
-                <IconButton aria-label="show">
-                  <RemoveRedEyeIcon
-                    sx={{ color: "#999", fontSize: "2rem" }}
-                    onClick={() => navigate("/admin/services/2")}
-                  />
+                <IconButton
+                  aria-label="show"
+                  onClick={() => navigate(`/admin/services/${row._id}`)}
+                >
+                  <RemoveRedEyeIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
               </StyledTableCell>
             </StyledTableRow>
@@ -99,7 +98,11 @@ export default function () {
         </TableBody>
       </StyledTableContainer>
       <Stack spacing={2}>
-        <Pagination count={10} shape="rounded" />
+        <Pagination
+          count={rows && Math.ceil(length / rowsPerPage)}
+          shape="rounded"
+          onChange={(e, value) => setPage(value)}
+        />
       </Stack>
       <Dialog
         open={openDeleteBox}

@@ -33,3 +33,16 @@ export const customerLogin = async (user) => {
     });
   return res;
 };
+const token = JSON.parse(localStorage.getItem("token"));
+export const getVoucherOfCustomer = async (id) => {
+  const res = await axios
+    .get(`${URL}customervoucher/customer/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+  return res;
+};

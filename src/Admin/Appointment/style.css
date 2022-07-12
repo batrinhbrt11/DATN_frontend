@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .css-3nejl.Appointment-appointment {
     background-color: rgb(249, 163, 146) !important;
 }

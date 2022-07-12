@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import "./style.css";
 import styled from "styled-components";
 import { ContentContainer } from "../ShareStyled";
+import formatDate from "../../lib/formatDate";
+import { useDispatch, useSelector } from "react-redux";
+import { editInfo, getInfo } from "../../redux/infoSlice";
+import { useForm } from "react-hook-form";
 export default function Profile() {
   const [edit, setEdit] = useState(false);
+  const info = useSelector((state) => state.info.info);
+  const [user, setUser] = useState(info);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getInfo());
+  }, [dispatch]);
+  useEffect(() => {
+    setUser(info);
+  }, [info]);
   return (
     <div>
       <div className="info-title">
@@ -15,41 +28,84 @@ export default function Profile() {
           endIcon={<EditIcon />}
           className="edit-btn"
           onClick={() => setEdit(!edit)}
-          sx={{ fontSize: "2rem" }}
+          sx={{ fontSize: "1rem", padding: "10px" }}
         >
           Edit
         </Button>
       </div>
-      {edit ? <EditInfo /> : <Information />}
+      {edit ? <EditInfo user={user} /> : <Information user={user} />}
     </div>
   );
 }
 
-function EditInfo() {
+function EditInfo({ user }) {
+  const dispatch = useDispatch();
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm();
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackBar(false);
+  };
+
+  const updateInfo = async (data) => {
+    await dispatch(editInfo({ userId: user._id, data: data }));
+  };
   return (
     <ContentContainer>
       <Title>Edit your Profile</Title>
-      <InfoForm>
+      <InfoForm onSubmit={handleSubmit(updateInfo)}>
         <UserDetails>
           <InputBox>
-            <span>Full Name</span>
-            <input type="text" placeholder="Enter your name" required />
-          </InputBox>
-          <InputBox>
             <span>Email</span>
-            <input type="text" placeholder="Enter your name" required />
+            <input type="text" defaultValue={user.email} disabled />
           </InputBox>
           <InputBox>
-            <span>Full Name</span>
-            <input type="text" placeholder="Enter your name" required />
+            <span>Name</span>
+            <input
+              type="text"
+              defaultValue={user.name}
+              required
+              {...register("name", {
+                required: "Name is not empty",
+              })}
+            />
+            <p>{errors.name?.message}</p>
           </InputBox>
+
           <InputBox>
-            <span>Full Name</span>
-            <input type="text" placeholder="Enter your name" required />
+            <span>Phone Number</span>
+            <input
+              type="text"
+              defaultValue={user.phoneNumber}
+              required
+              {...register("phoneNumber", {
+                required: "Phone Number is not empty",
+                pattern: {
+                  value: /((09|03|07|08|05)+([0-9]{8})\b)/g,
+                  message: "Phone Number format is incorrect",
+                },
+              })}
+            />
+            <p>{errors.phoneNumber?.message}</p>
           </InputBox>
           <InputBox>
             <span>Birthday</span>
-            <input type="date" placeholder="Enter your name" required />
+            <input
+              type="date"
+              defaultValue={user.birth && formatDate(new Date(user.birth))}
+              required
+              {...register("birth", {
+                required: "Birthday is not empty",
+              })}
+            />
+            <p>{errors.birth?.message}</p>
           </InputBox>
           <InputBox>
             <br></br>
@@ -60,31 +116,28 @@ function EditInfo() {
     </ContentContainer>
   );
 }
-function Information() {
+function Information({ user }) {
   return (
     <ContentContainer>
       <Title>Your Profile</Title>
       <InfoForm>
         <UserDetails>
           <InputBox>
-            <span>Full Name</span>
-            <input type="text" placeholder="Enter your name" disabled />
-          </InputBox>
-          <InputBox>
             <span>Email</span>
-            <input type="text" placeholder="Enter your name" disabled />
+            <input type="text" defaultValue={user.email} disabled />
           </InputBox>
           <InputBox>
-            <span>Full Name</span>
-            <input type="text" placeholder="Enter your name" disabled />
+            <span>Name</span>
+            <input type="text" defaultValue={user.name} disabled />
           </InputBox>
           <InputBox>
-            <span>Full Name</span>
-            <input type="text" placeholder="Enter your name" disabled />
+            <span>Phone Number</span>
+            <input type="text" defaultValue={user.phoneNumber} disabled />
           </InputBox>
           <InputBox>
             <span>Birthday</span>
-            <input type="date" placeholder="Enter your name" disabled />
+            <input type="text" defaultValue={formatDate(new Date(user.birth))} disabled />
+           
           </InputBox>
         </UserDetails>
       </InfoForm>
@@ -114,6 +167,10 @@ const InputBox = styled.div`
     font-weight: 500;
     margin-bottom: 5px;
   }
+  & p {
+    font-size: 1.5rem;
+    color: #df0029d9;
+  }
   & input {
     height: 45px;
     width: 100%;
@@ -126,7 +183,7 @@ const InputBox = styled.div`
     transition: all 0.3s ease;
     &:focus,
     &:valid {
-      border-color: #9b59b6;
+      border-color: #f9a392;
     }
   }
   & input[type="submit"] {

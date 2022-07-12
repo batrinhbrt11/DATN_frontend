@@ -17,9 +17,11 @@ export default function SignIn({ signIn }) {
   const onLogin = async (data) => {
     const res = await customerLogin(data);
     if (res.status === 200) {
-      dispatch(login(res.token));
+      dispatch(login(res));
       localStorage.setItem("token", JSON.stringify(res.token));
+      localStorage.setItem("user", JSON.stringify(res.user));
       navigate("/");
+      window.location.reload();
     } else if (res.status === 404) {
       setErrorPassword(res.message);
     }
