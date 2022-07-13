@@ -46,14 +46,6 @@ function EditInfo({ user }) {
     reset,
     handleSubmit,
   } = useForm();
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const handleCloseSnackBar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackBar(false);
-  };
-
   const updateInfo = async (data) => {
     await dispatch(editInfo({ userId: user._id, data: data }));
   };

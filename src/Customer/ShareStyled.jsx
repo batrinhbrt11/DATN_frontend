@@ -22,7 +22,7 @@ export const Column = styled.div`
     width: 100%;
   }
 `;
-export const Form = styled.div`
+export const Form = styled.form`
   padding: 20px;
   position: absolute;
   top: 50%;

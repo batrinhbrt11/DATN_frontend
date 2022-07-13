@@ -90,7 +90,7 @@ export default function FormVoucher() {
       <Stack spacing={2} sx={{ width: "100%" }}>
         <Snackbar
           open={openSnackBar}
-          autoHideDuration={1000}
+          autoHideDuration={3000}
           onClose={handleCloseSnackBar}
         >
           <Alert

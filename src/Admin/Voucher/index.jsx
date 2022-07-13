@@ -31,7 +31,7 @@ export default function () {
           Add
         </Button>
       </TableHeader>
-      <VoucherTable data={rows} user={false}/>
+      <VoucherTable data={rows} user={false} />
     </TableContainer>
   );
 }

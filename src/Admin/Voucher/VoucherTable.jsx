@@ -19,25 +19,32 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import {useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteVoucher } from "../../redux/VoucherSlice";
-export default function VoucherTable({ data,user }) {
+import formatDate from "../../lib/formatDate";
+export default function VoucherTable({ data, user, deleteVoucherOfCustomer }) {
   const navigate = useNavigate();
   const [openDeleteBox, setopenDeleteBox] = useState(false);
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const dispatch = useDispatch();
-  const [itemDelete,setItemDelete] = useState("")
+  const [itemDelete, setItemDelete] = useState("");
   const handleClickOpen = (id) => {
-    setItemDelete(id)
+    setItemDelete(id);
     setopenDeleteBox(true);
   };
   const handleClose = () => {
-    setItemDelete("")
+    setItemDelete("");
     setopenDeleteBox(false);
   };
+
   const handleDelete = () => {
-    dispatch(deleteVoucher(itemDelete))
+    if (user) {
+      deleteVoucherOfCustomer(itemDelete);
+    } else {
+      dispatch(deleteVoucher(itemDelete));
+    }
+
     setopenDeleteBox(false);
   };
   const length = useSelector((state) => state.vouchers.length);
@@ -55,22 +62,42 @@ export default function VoucherTable({ data,user }) {
             <StyledTableCell>Voucher Name</StyledTableCell>
             <StyledTableCell align="right">Voucher Code</StyledTableCell>
             <StyledTableCell align="right">Duration</StyledTableCell>
-
+            {user && <StyledTableCell align="right">Is Used</StyledTableCell>}
             <StyledTableCell align="right">Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows?.map((row) => (
             <StyledTableRow key={row._id}>
               <StyledTableCell component="th" scope="row">
                 {row.voucherName}
               </StyledTableCell>
               <StyledTableCell align="right">{row.voucherCode}</StyledTableCell>
-              <StyledTableCell align="right">{row.duration}</StyledTableCell>
               <StyledTableCell align="right">
-                <IconButton aria-label="delete" onClick={()=>handleClickOpen(row._id)}>
-                  <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
-                </IconButton>
+                {row.duration || formatDate(new Date(row.dueDate))}
+              </StyledTableCell>
+              {user && (
+                <StyledTableCell align="right">
+                  {row.isUsed ? "True" : "False"}
+                </StyledTableCell>
+              )}
+              <StyledTableCell align="right">
+                {!user ? (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleClickOpen(row._id)}
+                  >
+                    <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleClickOpen(row.voucherCustomerId)}
+                  >
+                    <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
+                  </IconButton>
+                )}
+
                 <IconButton
                   aria-label="show"
                   onClick={() => navigate(`/admin/vouchers/${row._id}`)}

@@ -2,23 +2,22 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { ButtonBox, TableContainer, TableHeader } from "../Styled";
 import { FormContainer, InputBox } from "../Styled";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert, Snackbar, Stack } from "@mui/material";
 import { getInfoService, updateService } from "./api";
 export default function ShowServices() {
   const { id } = useParams();
   const [service, setService] = useState({});
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(false);
   const [openSnackBar, setOpenSnackBar] = useState(false);
-  const [stateRes, setStateRes] = useState(null)
+  const [stateRes, setStateRes] = useState(null);
   const getService = async () => {
     const res = await getInfoService(id);
     reset({
       name: res.name,
-   
-    })
-    setService(res)
+    });
+    setService(res);
   };
   useEffect(() => {
     getService();
@@ -30,25 +29,23 @@ export default function ShowServices() {
     handleSubmit,
   } = useForm({
     defaultValues: {
-        name: "",
-      
-    }
+      name: "",
+    },
   });
   const onSubmit = async (data) => {
-    const response = await updateService(id, data)
+    const response = await updateService(id, data);
     if (response?.status === 200) {
       setStateRes({
         msg: "Update Service Success",
         status: 200,
-      })
+      });
       setOpenSnackBar(true);
-      setEdit(false)
-    }
-    else {
+      setEdit(false);
+    } else {
       setStateRes({
         msg: "Update Service Fail",
         status: 400,
-      })
+      });
       setOpenSnackBar(true);
     }
   };
@@ -74,40 +71,41 @@ export default function ShowServices() {
 
       {service && (
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
- 
           <InputBox style={{ width: "100%" }}>
             <span>Service Name</span>
-            <input type="text" defaultValue={service.name} disabled={!edit} {...register("name", {
-              required: "Service Name is not empty",
-            })} />
+            <input
+              type="text"
+              defaultValue={service.name}
+              disabled={!edit}
+              {...register("name", {
+                required: "Service Name is not empty",
+              })}
+            />
             <p>{errors.bame?.message}</p>
           </InputBox>
-          {
-            edit && (<ButtonBox>
+          {edit && (
+            <ButtonBox>
               <button>Update</button>
-            </ButtonBox>)
-          }
-
+            </ButtonBox>
+          )}
         </FormContainer>
       )}
-      {
-        stateRes && (
-          <Stack spacing={2} sx={{ width: "100%" }}>
-            <Snackbar
-              open={openSnackBar}
-              autoHideDuration={1000}
-              onClose={handleCloseSnackBar}
+      {stateRes && (
+        <Stack spacing={2} sx={{ width: "100%" }}>
+          <Snackbar
+            open={openSnackBar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackBar}
+          >
+            <Alert
+              severity={stateRes.status === 200 ? "success" : "error"}
+              sx={{ width: "100%" }}
             >
-              <Alert
-                severity={stateRes.status === 200 ? "success" : "error"}
-                sx={{ width: "100%" }}
-              >
-                {stateRes.msg}
-              </Alert>
-            </Snackbar>
-          </Stack>
-        )
-      }
+              {stateRes.msg}
+            </Alert>
+          </Snackbar>
+        </Stack>
+      )}
     </TableContainer>
   );
 }

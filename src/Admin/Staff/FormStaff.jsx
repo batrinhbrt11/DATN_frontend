@@ -26,7 +26,7 @@ export default function FormStaff() {
       reset({
         username: "",
         password: "",
-        name: "",    
+        name: "",
         email: "",
         phoneNumber: "",
         birth: "",
@@ -76,8 +76,8 @@ export default function FormStaff() {
             type="text"
             placeholder="Name"
             {...register("name", {
-                required: "Name is not empty",
-              })}
+              required: "Name is not empty",
+            })}
           />
           <p>{errors.name?.message}</p>
         </InputBox>
@@ -118,8 +118,8 @@ export default function FormStaff() {
             type="date"
             placeholder="Birthday"
             {...register("birth", {
-                required: "Birthday is not empty",
-              })}
+              required: "Birthday is not empty",
+            })}
           />
           <p>{errors.birth?.message}</p>
         </InputBox>
@@ -131,7 +131,7 @@ export default function FormStaff() {
       <Stack spacing={2} sx={{ width: "100%" }}>
         <Snackbar
           open={openSnackBar}
-          autoHideDuration={1000}
+          autoHideDuration={3000}
           onClose={handleCloseSnackBar}
         >
           <Alert

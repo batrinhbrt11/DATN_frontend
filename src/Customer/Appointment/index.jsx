@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import enLocale from "date-fns/locale/en-US";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Column, Form, Row } from "../ShareStyled";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectToken } from "../../redux/cusAuthSlice";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { getAllStaff } from "../../redux/staffSlice";
+import { getAllService } from "../../redux/serviceSlice";
+import { makeAppointment } from "./api";
 
 const locale = enLocale;
 const ITEM_HEIGHT = 48;
@@ -23,32 +25,151 @@ const MenuProps = {
   },
 };
 export default function () {
-  const [datePickerValue, setDatePickerValue] = useState(new Date());
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [appointment, setAppointment] = useState({
+    appointmentTypeId: "",
+    phoneNumber: "",
+    customerName: "",
+    staffId: "",
+    customerId: user?.id || "",
+    date: new Date(),
+  });
+  const [error, setError] = useState("");
   const token = useSelector(selectToken);
-  const [timePickerValue, setTimePickerValue] = useState(new Date());
+  const dispatch = useDispatch();
+  const listStaffs = useSelector((state) => state.staffs);
+  const listServices = useSelector((state) => state.services);
+  const [staffs, setStaffs] = useState(listStaffs.staffs);
+  const [services, setServices] = useState(listServices.services);
+  const [success, setSuccess] = useState("");
+  useEffect(() => {
+    dispatch(getAllStaff());
+    dispatch(getAllService());
+  }, [dispatch]);
+  useEffect(() => {
+    setServices(listServices.services);
+  }, [listServices]);
+  useEffect(() => {
+    setStaffs(listStaffs.staffs);
+  }, [listStaffs]);
+  const isPhoneNumber = (phoneNumber) => {
+    var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+    if (vnf_regex.test(phoneNumber) === false) {
+      return false;
+    }
+    return true;
+  };
+
+  const isValidDay = (date) => {
+    var now = new Date();
+    var Difference_In_Time = date.getTime() - now.getTime();
+    var Difference_In_Days = Difference_In_Time / (1000 * 3600);
+    if (Difference_In_Days >= 2) {
+      return true;
+    }
+    return false;
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (appointment.customerId === "") {
+      if (appointment.customerName === "" || appointment.phoneNumber === "") {
+        return setError("Please enter your information!");
+      }
+      if (!isPhoneNumber(appointment.phoneNumber)) {
+        return setError("Phone number is Invalid!");
+      }
+    }
+    if (appointment.appointmentTypeId === "") {
+      return setError("Please choosing service!");
+    }
+    if (appointment.staffId === "") {
+      return setError("Please choosing staff!");
+    }
+    if (!isValidDay(appointment.date)) {
+      return setError(
+        "Time is invalid! Please booking appointment after 2 hours"
+      );
+    }
+    const res = await makeAppointment(appointment);
+    if (res.status === 200) {
+      setAppointment({
+        appointmentTypeId: "",
+        phoneNumber: "",
+        customerName: "",
+        customerId: "",
+        staffId: "",
+        date: new Date(),
+      });
+      setSuccess("Successfully added Appointment");
+    }
+  };
   return (
     <Container>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Row style={{ width: "100%" }}>
           <h1 style={{ width: "100%", textAlign: "center" }}>
             Make Appointment
           </h1>
         </Row>
+        {error !== "" && (
+          <Row style={{ width: "100%" }}>
+            <p
+              style={{
+                width: "100%",
+                textAlign: "center",
+                color: "#fd1414",
+                fontWeight: "100",
+                fontSize: "1.2rem",
+              }}
+            >
+              {error}
+            </p>
+          </Row>
+        )}
+        {success !== "" && (
+          <Row style={{ width: "100%" }}>
+            <p
+              style={{
+                width: "100%",
+                textAlign: "center",
+                color: "#1aed64",
+                fontWeight: "100",
+                fontSize: "1.2rem",
+              }}
+            >
+              {success}
+            </p>
+          </Row>
+        )}
+
         {token === null && (
           <Row>
             <Column>
-              <Input type="text" name="lastName" placeholder="Your name" />
+              <Input
+                type="text"
+                placeholder="Your name"
+                value={appointment.customerName}
+                onChange={(e) =>
+                  setAppointment({
+                    ...appointment,
+                    customerName: e.target.value,
+                  })
+                }
+                onFocus={() => setError("")}
+              />
             </Column>
             <Column>
               <Input
                 type="text"
-                name="lastName"
                 placeholder="Your Phone number"
+                onChange={(e) =>
+                  setAppointment({
+                    ...appointment,
+                    phoneNumber: e.target.value,
+                  })
+                }
+                value={appointment.phoneNumber}
+                onFocus={() => setError("")}
               />
             </Column>
           </Row>
@@ -64,16 +185,29 @@ export default function () {
                 Services
               </InputLabel>
               <Select
+                onFocus={() => setError("")}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
+                value={appointment.appointmentTypeId}
+                label="Services"
+                onChange={(event) =>
+                  setAppointment({
+                    ...appointment,
+                    appointmentTypeId: event.target.value,
+                  })
+                }
                 MenuProps={MenuProps}
               >
-                <MenuItem value={10} sx={{ fontSize: "16px" }}>
-                  Ten
-                </MenuItem>
+                {services &&
+                  services.map((s) => (
+                    <MenuItem
+                      key={s._id}
+                      value={s._id}
+                      sx={{ fontSize: "16px" }}
+                    >
+                      {s.name}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Column>
@@ -86,16 +220,29 @@ export default function () {
                 Staff
               </InputLabel>
               <Select
+                onFocus={() => setError("")}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
+                value={appointment.staffId}
+                label="Staff"
+                onChange={(event) =>
+                  setAppointment({
+                    ...appointment,
+                    staffId: event.target.value,
+                  })
+                }
                 MenuProps={MenuProps}
               >
-                <MenuItem value={10} sx={{ fontSize: "16px" }}>
-                  Ten
-                </MenuItem>
+                {staffs &&
+                  staffs.map((s) => (
+                    <MenuItem
+                      key={s._id}
+                      value={s._id}
+                      sx={{ fontSize: "16px" }}
+                    >
+                      {s.name}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Column>
@@ -105,20 +252,15 @@ export default function () {
           adapterLocale={locale}
         >
           <Row>
-            <Column>
-              <DatePicker
-                value={datePickerValue}
-                onChange={(newValue) => setDatePickerValue(newValue)}
-                renderInput={(params) => <TextField {...params} />}
-                className="date-time-picker"
-              />
-            </Column>
-            <Column>
-              <TimePicker
-                value={timePickerValue}
-                onChange={(newValue) => setTimePickerValue(newValue)}
-                renderInput={(params) => <TextField {...params} />}
-                className="date-time-picker"
+            <Column style={{ width: "100%" }}>
+              <DateTimePicker
+                renderInput={(props) => <TextField {...props} />}
+                label="Time"
+                value={appointment.date}
+                onChange={(newValue) => {
+                  setAppointment({ ...appointment, date: newValue });
+                  setError("");
+                }}
               />
             </Column>
           </Row>

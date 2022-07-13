@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
@@ -32,48 +32,9 @@ import {
 import "./style.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
-const meetings = [
-  {
-    id: 1,
-    name: "Leslie Alexander",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2022-05-11T13:00",
-    endDatetime: "2022-05-11T14:30",
-  },
-  {
-    id: 2,
-    name: "Michael Foster",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2022-05-20T09:00",
-    endDatetime: "2022-05-20T11:30",
-  },
-  {
-    id: 3,
-    name: "Dries Vincent",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2022-05-20T17:00",
-    endDatetime: "2022-05-20T18:30",
-  },
-  {
-    id: 4,
-    name: "Leslie Alexander",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2022-06-09T13:00",
-    endDatetime: "2022-06-09T14:30",
-  },
-  {
-    id: 5,
-    name: "Michael Foster",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2022-05-13T14:00",
-    endDatetime: "2022-05-13T14:30",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAppointment } from "../../redux/appointmentSlice";
+import formatDate from "../../lib/formatDate";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -99,10 +60,29 @@ export default function Appointment() {
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
 
-  let selectedDayMeetings = meetings.filter((meeting) =>
-    isSameDay(parseISO(meeting.startDatetime), selectedDay)
-  );
+  const selectedDayMeetings = () => {
+    setSelectedMeeting(
+      appointment.filter((meeting) =>
+        isSameDay(parseISO(meeting.date), selectedDay)
+      )
+    );
+  };
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.appointments);
+  const [appointment, setAppointment] = useState(data.appointments);
+  const [selectedMeeting, setSelectedMeeting] = useState([]);
+  useEffect(() => {
+    dispatch(getAllAppointment());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setAppointment(data.appointments);
+    selectedDayMeetings();
+  }, [data]);
+  useEffect(() => {
+    selectedDayMeetings();
+  }, [selectedDay]);
   return (
     <TableContainer>
       <TableHeader>
@@ -201,8 +181,8 @@ export default function Appointment() {
                     </button>
 
                     <div className="w-1 h-1 mx-auto mt-1">
-                      {meetings.some((meeting) =>
-                        isSameDay(parseISO(meeting.startDatetime), day)
+                      {appointment.some((meeting) =>
+                        isSameDay(parseISO(meeting.date), day)
                       ) && (
                         <div className="w-1 h-1 rounded-full bg-sky-500"></div>
                       )}
@@ -219,9 +199,9 @@ export default function Appointment() {
                 </time>
               </h2>
               <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-                {selectedDayMeetings.length > 0 ? (
-                  selectedDayMeetings.map((meeting) => (
-                    <Meeting meeting={meeting} key={meeting.id} />
+                {selectedMeeting.length > 0 ? (
+                  selectedMeeting.map((meeting) => (
+                    <Meeting meeting={meeting} key={meeting._id} />
                   ))
                 ) : (
                   <p>No meetings for today.</p>
@@ -236,8 +216,7 @@ export default function Appointment() {
 }
 
 function Meeting({ meeting }) {
-  let startDateTime = parseISO(meeting.startDatetime);
-  let endDateTime = parseISO(meeting.endDatetime);
+  let startDateTime = parseISO(meeting.date);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -258,27 +237,28 @@ function Meeting({ meeting }) {
     setopenDeleteBox(false);
   };
 
+  const [openInfo, setOpenInfo] = useState(false);
+
+  const handleOpenInfo = () => {
+    setOpenInfo(true);
+  };
+
+  const handleCloseInfo = () => {
+    setOpenInfo(false);
+  };
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      <img
-        src={meeting.imageUrl}
-        alt=""
-        className="flex-none w-10 h-10 rounded-full"
-      />
       <div className="flex-auto">
-        <p className="text-gray-900">{meeting.name}</p>
-        <p className="mt-0.5">
+        <p className="text-gray-900">
+          Customer : {meeting.customer.name || meeting.customerName}
+        </p>
+        <p className="mt-0.5 meeting-info">
           <time dateTime={meeting.startDatetime}>
             {format(startDateTime, "h:mm a")}
-          </time>{" "}
-          -{" "}
-          <time dateTime={meeting.endDatetime}>
-            {format(endDateTime, "h:mm a")}
           </time>
         </p>
       </div>
       <div>
-        {" "}
         <IconButton
           aria-label="more"
           id="long-button"
@@ -299,7 +279,7 @@ function Meeting({ meeting }) {
           onClose={handleClose}
           TransitionComponent={Fade}
         >
-          <MenuItem onClick={handleClose}>Show</MenuItem>
+          <MenuItem onClick={handleOpenInfo}>Show</MenuItem>
           <MenuItem onClick={handleOpenDelete}>Delete</MenuItem>
         </Menu>
         <Dialog
@@ -329,6 +309,57 @@ function Meeting({ meeting }) {
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Dialog
+          open={openInfo}
+          onClose={handleCloseInfo}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            id="alert-dialog-title"
+            sx={{ fontSize: "2.5rem", color: "rgb(222, 64, 33) !important" }}
+          >
+            Appointment Information
+          </DialogTitle>
+          <DialogContent className="history-modal-content">
+            <div>
+              <p>
+                <span>Customer Name: </span>{" "}
+                <span style={priceStyle}>
+                  {meeting.customer.name || meeting.customerName}
+                </span>
+              </p>
+              <p>
+                <span>Phone Number: </span>{" "}
+                <span style={priceStyle}>
+                  {meeting.customer.phoneNumber || meeting.phoneNumber}
+                </span>
+              </p>
+              <p>
+                <span>Staff Name: </span>{" "}
+                <span style={priceStyle}>{meeting.staff.name}</span>
+              </p>
+              <p>
+                <span>Service Name: </span>{" "}
+                <span style={priceStyle}>{meeting.appointmentType.name}</span>
+              </p>
+              <p>
+                <span>Time: </span>{" "}
+                <span style={priceStyle}>
+                  {formatDate(new Date(meeting.date))}{" "}
+                  {format(startDateTime, "h:mm a")}
+                </span>
+              </p>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseInfo}>Disagree</Button>
+            <Button onClick={handleCloseInfo} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </li>
   );
@@ -342,3 +373,8 @@ let colStartClasses = [
   "col-start-6",
   "col-start-7",
 ];
+
+const priceStyle = {
+  float: "right",
+  color: "grey",
+};

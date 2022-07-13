@@ -86,3 +86,14 @@ button.css-mf1cb5-MuiButtonBase-root-MuiIconButton-root
     color: #000 !important;
     font-size: 1.5rem;
 }
+.history-modal-content {
+    width: 600px !important;
+}
+.history-modal-content span {
+    font-size: 1.5rem;
+}
+@media screen and (max-width: 768px) {
+    .history-modal-content {
+        width: 250px !important;
+    }
+}

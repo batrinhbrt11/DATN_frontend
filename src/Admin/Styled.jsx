@@ -204,7 +204,6 @@ export const Details = styled.div`
 `;
 export const TableContainer = styled.div`
   position: relative;
-  min-height: 500px;
 
   background: var(--white);
   padding: 20px;
@@ -213,8 +212,8 @@ export const TableContainer = styled.div`
   margin: 30px;
   overflow-x: scroll;
   &::-webkit-scrollbar {
-      width: 5px;
-    }
+    width: 5px;
+  }
   @media (max-width: 800px) {
     margin: 0;
     width: 100%;
@@ -227,8 +226,9 @@ export const TableContainer = styled.div`
 
 export const TableHeader = styled.div`
   display: flex;
+
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding-bottom: 20px;
   & h2 {
     font-size: 2rem;

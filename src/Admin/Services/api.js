@@ -16,22 +16,21 @@ export const getInfoService = async (id) => {
     });
   return res;
 };
-export const updateService = async (id,service)=>{
-    var config = {
-      method: "put",
-      url: `${URL}appointmenttype/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      data: service,
-    };
-    return await axios(config)
-      .then((res) => {
-        return res})
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-  
-  
+export const updateService = async (id, service) => {
+  var config = {
+    method: "put",
+    url: `${URL}appointmenttype/${id}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    data: service,
+  };
+  return await axios(config)
+    .then((res) => {
+      return res;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};

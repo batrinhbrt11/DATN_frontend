@@ -30,21 +30,21 @@ export default function () {
   const length = useSelector((state) => state.staffs.length);
   const rowsPerPage = 10;
   const dispatch = useDispatch();
-  const [itemDelete,setItemDelete] = useState("")
+  const [itemDelete, setItemDelete] = useState("");
   const handleClickOpen = (id) => {
-    setItemDelete(id)
+    setItemDelete(id);
     setopenDeleteBox(true);
   };
 
   const handleClose = () => {
-    setItemDelete("")
+    setItemDelete("");
     setopenDeleteBox(false);
   };
   const handleDelete = () => {
-    dispatch(deleteStaff(itemDelete))
+    dispatch(deleteStaff(itemDelete));
     setopenDeleteBox(false);
   };
-  
+
   const data = useSelector((state) => state.staffs);
   const [rows, setRows] = useState([]);
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function () {
   }, [dispatch]);
   useEffect(() => {
     setRows(data.staffs.slice((page - 1) * rowsPerPage, page * rowsPerPage));
-  }, [data,page]);
+  }, [data, page]);
   return (
     <TableContainer>
       <TableHeader>
@@ -88,7 +88,10 @@ export default function () {
               <StyledTableCell align="right">{row.email}</StyledTableCell>
 
               <StyledTableCell align="right">
-                <IconButton aria-label="delete" onClick={() => handleClickOpen(row._id)}>
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleClickOpen(row._id)}
+                >
                   <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
                 <IconButton

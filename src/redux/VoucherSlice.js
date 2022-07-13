@@ -34,16 +34,16 @@ export const deleteVoucher = createAsyncThunk("vouchers/delete", async (id) => {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-    }
+    },
   };
   return await axios(config)
     .then((res) => {
-      return { ...res, id: id }
+      return { ...res, id: id };
     })
     .catch(function (error) {
       console.log(error);
     });
-})
+});
 const voucherSlice = createSlice({
   name: "vouchers",
   initialState: {
@@ -94,14 +94,16 @@ const voucherSlice = createSlice({
       state.error = "";
     },
 
-     //delete
-     [deleteVoucher.pending]: (state, action) => {
+    //delete
+    [deleteVoucher.pending]: (state, action) => {
       state.loading = true;
     },
     [deleteVoucher.fulfilled]: (state, action) => {
       state.loading = false;
       if (action.payload.data === true) {
-        state.vouchers = state.vouchers.filter(s => s._id !== action.payload.id);
+        state.vouchers = state.vouchers.filter(
+          (s) => s._id !== action.payload.id
+        );
         state.length -= 1;
       }
     },

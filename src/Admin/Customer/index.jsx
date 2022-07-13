@@ -25,8 +25,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCustomer, getAllCustomer } from "../../redux/CustomerSlice";
 import formatDate from "../../lib/formatDate";
 
-
-
 export default function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,7 +32,7 @@ export default function () {
   const [page, setPage] = useState(1);
   const length = useSelector((state) => state.customers.length);
   const rowsPerPage = 10;
-  const [itemDelete,setItemDelete] = useState("")
+  const [itemDelete, setItemDelete] = useState("");
   const handleClickOpen = (id) => {
     setItemDelete(id);
     setopenDeleteBox(true);
@@ -44,8 +42,8 @@ export default function () {
     setItemDelete("");
     setopenDeleteBox(false);
   };
-  const handleDelete = async() => {
-    dispatch(deleteCustomer(itemDelete))
+  const handleDelete = async () => {
+    dispatch(deleteCustomer(itemDelete));
     setopenDeleteBox(false);
   };
 
@@ -56,7 +54,7 @@ export default function () {
   }, [dispatch]);
   useEffect(() => {
     setRows(data.customers.slice((page - 1) * rowsPerPage, page * rowsPerPage));
-  }, [data,page]);
+  }, [data, page]);
   return (
     <TableContainer>
       <TableHeader>
@@ -100,7 +98,10 @@ export default function () {
                 >
                   <ModeEditIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
-                <IconButton aria-label="delete" onClick={()=>handleClickOpen(row._id)}>
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleClickOpen(row._id)}
+                >
                   <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
                 <IconButton
@@ -116,7 +117,7 @@ export default function () {
       </StyledTableContainer>
       <Stack spacing={2}>
         <Pagination
-         count={rows && Math.ceil(length / rowsPerPage)}
+          count={rows && Math.ceil(length / rowsPerPage)}
           shape="rounded"
           onChange={(e, value) => setPage(value)}
         />

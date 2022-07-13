@@ -17,8 +17,7 @@ export const getInfoStaff = async (id) => {
   return res;
 };
 
-
-export const updateStaff = async (id,user)=>{
+export const updateStaff = async (id, user) => {
   var config = {
     method: "put",
     url: `${URL}staff/${id}`,
@@ -26,13 +25,13 @@ export const updateStaff = async (id,user)=>{
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    data: {...user,id:id},
+    data: { ...user, id: id },
   };
   return await axios(config)
     .then((res) => {
-      return res})
+      return res;
+    })
     .catch(function (error) {
       console.log(error);
     });
-}
-
+};

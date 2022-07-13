@@ -16,24 +16,21 @@ export const getInfoVoucher = async (id) => {
     });
   return res;
 };
-export const updateVoucher = async (id,voucher)=>{
-    var config = {
-      method: "put",
-      url: `${URL}voucher/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      data: voucher,
-    };
-    return await axios(config)
-      .then((res) => {
-        return res})
-      .catch(function (error) {
-        console.log(error);
-      });
-}
-
-
-
-  
+export const updateVoucher = async (id, voucher) => {
+  var config = {
+    method: "put",
+    url: `${URL}voucher/${id}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    data: voucher,
+  };
+  return await axios(config)
+    .then((res) => {
+      return res;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};

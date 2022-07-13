@@ -14,24 +14,28 @@ export const getAllCustomer = createAsyncThunk("customers/getAll", async () => {
     .then((res) => res.data)
     .catch((err) => console.log(err));
 });
-export const deleteCustomer = createAsyncThunk("customers/delete",async(id)=>{
-  var config = {
-    method: "delete",
-    url: `${URL}customer/${id}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    }
-  };
-  return await axios(config)
-    .then((res) => {
-      return {...res,id:id}})
-    .catch(function (error) {
-      console.log(error);
-    });
-})
+export const deleteCustomer = createAsyncThunk(
+  "customers/delete",
+  async (id) => {
+    var config = {
+      method: "delete",
+      url: `${URL}customer/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    return await axios(config)
+      .then((res) => {
+        return { ...res, id: id };
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+);
 
-export const addUser = createAsyncThunk("customers/add",async(data)=>{
+export const addUser = createAsyncThunk("customers/add", async (data) => {
   return await axios
     .post(`${URL}customer/register`, data, {
       headers: {
@@ -40,12 +44,13 @@ export const addUser = createAsyncThunk("customers/add",async(data)=>{
       },
     })
     .then((res) => {
-      return res
+      return res;
     })
     .catch((err) => {
-        console.log(err)
-        return err.response});
-})
+      console.log(err);
+      return err.response;
+    });
+});
 const customerSlice = createSlice({
   name: "customers",
   initialState: {
@@ -77,9 +82,11 @@ const customerSlice = createSlice({
     },
     [deleteCustomer.fulfilled]: (state, action) => {
       state.loading = false;
-      if(action.payload.data === true){
-        state.customers = state.customers.filter(c=> c._id !== action.payload.id);
-        state.length -=1;
+      if (action.payload.data === true) {
+        state.customers = state.customers.filter(
+          (c) => c._id !== action.payload.id
+        );
+        state.length -= 1;
       }
     },
     [deleteCustomer.rejected]: (state, action) => {

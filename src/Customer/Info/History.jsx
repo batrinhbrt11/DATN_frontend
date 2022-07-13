@@ -6,9 +6,6 @@ import {
   ItemCard,
 } from "../ShareStyled";
 import "./style.css";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import styled from "styled-components";
 import IconButton from "@mui/material/IconButton";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import HistoryModal from "./HistoryModal";

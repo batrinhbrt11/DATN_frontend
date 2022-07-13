@@ -6,9 +6,6 @@ import {
   ItemCard,
 } from "../ShareStyled";
 import "./style.css";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-
 import HistoryModal from "./HistoryModal";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
@@ -24,8 +21,7 @@ export default function Voucher() {
   const [data, setData] = useState([]);
   const getData = async () => {
     const res = await getVoucherOfCustomer(id);
-    console.log(res)
-    setData(res.vouchers)
+    setData(res.vouchers);
   };
   useEffect(() => {
     getData();
@@ -37,7 +33,7 @@ export default function Voucher() {
       </div>
       <ContentContainer>
         <Content>
-          {data?.map(d => (
+          {data?.map((d) => (
             <ItemCard>
               <CardContent>
                 <span
@@ -99,12 +95,13 @@ export default function Voucher() {
                   </span>
                 </span>
               </CardContent>
-              {d.isUsed ?   <CloseIcon fontSize="large" style={{ color: "#f10000" }} /> :  <CheckIcon fontSize="large" style={{ color: "#3bf100" }} />}
+              {d.isUsed ? (
+                <CloseIcon fontSize="large" style={{ color: "#f10000" }} />
+              ) : (
+                <CheckIcon fontSize="large" style={{ color: "#3bf100" }} />
+              )}
             </ItemCard>
           ))}
-
-       
-
         </Content>
         <HistoryModal open={open} setOpen={setOpen} />
       </ContentContainer>

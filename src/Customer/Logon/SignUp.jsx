@@ -6,23 +6,56 @@ export default function SignUp({ signIn }) {
   const {
     register,
     formState: { errors },
+    reset,
     handleSubmit,
   } = useForm();
   const [errorPassword, setErrorPassword] = useState("");
+  const [success, setSuccess] = useState("");
+  const [errorDate,setErrorDate] = useState("");
+  const isValidDay = (date) => {
+    var birth = new Date(date)
+    var now = new Date();
+    var Difference_In_Time = now.getTime() - birth.getTime();
+    var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24 * 365);
+    if (Difference_In_Days >= 16) {
+      return true;
+    }
+    return false;
+  };
   const onRegister = async (data) => {
     if (data.password !== data.rePassword) {
       return setErrorPassword("Password and Confirm Password doesn't match");
     }
+    if(!isValidDay(data.birthday)){
+      return setErrorDate("Your age must be over 16")
+    }
     const res = await customerRegister(data);
     if (res !== true) {
-      setErrorPassword(res);
+      return setErrorPassword(res);
     }
+    reset({
+      email: "",
+      name: "",
+      phoneNumber: "",
+      password: "",
+      rePassword: "",
+      birthday: new Date(),
+    });
+    setErrorPassword("");
+    setSuccess("Successfully Register. Please Sign In!");
   };
   return (
     <SignUpForm signIn={signIn}>
       <form onSubmit={handleSubmit(onRegister)}>
         <h3>Sign Up</h3>
         <p>{errorPassword}</p>
+        <p
+          style={{
+            color: "#1aed64",
+          }}
+        >
+          {success}
+        </p>
         <input
           type="text"
           placeholder="Email"
@@ -81,10 +114,12 @@ export default function SignUp({ signIn }) {
         />
         <p>{errors.rePassword?.message}</p>
         <input
+          onFocus={()=>setErrorDate("")}
           type="date"
           placeholder="Birthday"
           {...register("birthday")}
         ></input>
+        <p>{errorDate}</p>
         <input type="submit" value="Register" />
       </form>
     </SignUpForm>

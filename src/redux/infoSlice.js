@@ -34,7 +34,8 @@ export const editInfo = createAsyncThunk(
     };
     return await axios(config)
       .then((res) => {
-        return res.data})
+        return res.data;
+      })
       .catch(function (error) {
         console.log(error);
       });

@@ -24,12 +24,11 @@ export const addStaff = createAsyncThunk("staffs/add", async (staff) => {
       },
     })
     .then((res) => {
-
       return { status: 200, data: staff };
     })
     .catch((err) => {
-      console.log(err)
-      return err.response
+      console.log(err);
+      return err.response;
     });
 });
 export const deleteStaff = createAsyncThunk("staffs/delete", async (id) => {
@@ -39,16 +38,16 @@ export const deleteStaff = createAsyncThunk("staffs/delete", async (id) => {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-    }
+    },
   };
   return await axios(config)
     .then((res) => {
-      return { ...res, id: id }
+      return { ...res, id: id };
     })
     .catch(function (error) {
       console.log(error);
     });
-})
+});
 const staffSlice = createSlice({
   name: "staffs",
   initialState: {
@@ -104,7 +103,7 @@ const staffSlice = createSlice({
     [deleteStaff.fulfilled]: (state, action) => {
       state.loading = false;
       if (action.payload.data === true) {
-        state.staffs = state.staffs.filter(s => s._id !== action.payload.id);
+        state.staffs = state.staffs.filter((s) => s._id !== action.payload.id);
         state.length -= 1;
       }
     },

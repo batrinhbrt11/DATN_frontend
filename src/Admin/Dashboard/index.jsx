@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Details, TableContainer, TableHeader } from "../Styled";
 
 import { Link, useNavigate } from "react-router-dom";
-import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { StyledTableCell, StyledTableContainer, StyledTableRow } from "../TableStyled";
+import {
+  StyledTableCell,
+  StyledTableContainer,
+  StyledTableRow,
+} from "../TableStyled";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCustomer,
   selectBirthDayCustomer,
 } from "../../redux/CustomerSlice";
 import formatDate from "../../lib/formatDate";
-import { getIsBirthdayCustomer } from "../Customer/api";
 import { IconButton } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 export default function () {

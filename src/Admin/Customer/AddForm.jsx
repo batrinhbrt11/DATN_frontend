@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { ButtonBox, FormContainer, InputBox } from "../Styled";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import { Alert, Stack } from "@mui/material";
 import { addUser } from "../../redux/CustomerSlice";
 
@@ -14,7 +13,7 @@ export default function AddForm() {
     reset,
     handleSubmit,
   } = useForm();
-  const [openSnackBar, setOpenSnackBar] = useState(false);
+
   const dispatch = useDispatch();
   const massage = useSelector((state) => state.customers.error);
   const onSubmit = async (data) => {
@@ -25,14 +24,14 @@ export default function AddForm() {
     if (massage.status === 200) {
       reset({
         password: "",
-        name: "",    
+        name: "",
         email: "",
         phoneNumber: "",
         birth: "",
       });
     }
   }, [dispatch, massage, reset]);
-
+  const [openSnackBar, setOpenSnackBar] = useState(false);
   const handleCloseSnackBar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -42,15 +41,14 @@ export default function AddForm() {
   return (
     <>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
-
         <InputBox>
           <span>Name</span>
           <input
             type="text"
             placeholder="Name"
             {...register("name", {
-                required: "Name is not empty",
-              })}
+              required: "Name is not empty",
+            })}
           />
           <p>{errors.name?.message}</p>
         </InputBox>
@@ -106,8 +104,8 @@ export default function AddForm() {
             type="date"
             placeholder="Birthday"
             {...register("birth", {
-                required: "Birthday is not empty",
-              })}
+              required: "Birthday is not empty",
+            })}
           />
           <p>{errors.birth?.message}</p>
         </InputBox>
@@ -119,7 +117,7 @@ export default function AddForm() {
       <Stack spacing={2} sx={{ width: "100%" }}>
         <Snackbar
           open={openSnackBar}
-          autoHideDuration={1000}
+          autoHideDuration={3000}
           onClose={handleCloseSnackBar}
         >
           <Alert

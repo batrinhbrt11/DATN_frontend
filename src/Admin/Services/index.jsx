@@ -30,18 +30,18 @@ export default function () {
   const length = useSelector((state) => state.services.length);
   const dispatch = useDispatch();
   const rowsPerPage = 10;
-  const [itemDelete,setItemDelete] = useState("")
+  const [itemDelete, setItemDelete] = useState("");
   const handleClickOpen = (id) => {
-    setItemDelete(id)
+    setItemDelete(id);
     setopenDeleteBox(true);
   };
 
   const handleClose = () => {
-    setItemDelete("")
+    setItemDelete("");
     setopenDeleteBox(false);
   };
   const handleDelete = () => {
-    dispatch(deleteService(itemDelete))
+    dispatch(deleteService(itemDelete));
     setopenDeleteBox(false);
   };
 
@@ -52,7 +52,7 @@ export default function () {
   }, [dispatch]);
   useEffect(() => {
     setRows(data.services.slice((page - 1) * rowsPerPage, page * rowsPerPage));
-  }, [data,page]);
+  }, [data, page]);
   return (
     <TableContainer>
       <TableHeader>
@@ -75,15 +75,18 @@ export default function () {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows?.map((row,index) => (
+          {rows?.map((row, index) => (
             <StyledTableRow key={row._id}>
               <StyledTableCell component="th" scope="row">
                 {index + 1}
               </StyledTableCell>
               <StyledTableCell align="right">{row.name}</StyledTableCell>
-              
+
               <StyledTableCell align="right">
-                <IconButton aria-label="delete"onClick={()=>handleClickOpen(row._id)}>
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleClickOpen(row._id)}
+                >
                   <DeleteIcon sx={{ color: "#999", fontSize: "2rem" }} />
                 </IconButton>
                 <IconButton
