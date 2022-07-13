@@ -43,7 +43,6 @@ function EditInfo({ user }) {
   const {
     register,
     formState: { errors },
-    reset,
     handleSubmit,
   } = useForm();
   const updateInfo = async (data) => {
@@ -128,8 +127,11 @@ function Information({ user }) {
           </InputBox>
           <InputBox>
             <span>Birthday</span>
-            <input type="text" defaultValue={formatDate(new Date(user.birth))} disabled />
-           
+            <input
+              type="text"
+              defaultValue={formatDate(new Date(user.birth))}
+              disabled
+            />
           </InputBox>
         </UserDetails>
       </InfoForm>

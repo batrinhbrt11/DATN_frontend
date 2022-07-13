@@ -16,7 +16,6 @@ import { getVoucherOfCustomer } from "../Logon/api";
 import formatDate from "../../lib/formatDate";
 export default function Voucher() {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const id = useSelector(selectUserId);
   const [data, setData] = useState([]);
   const getData = async () => {
