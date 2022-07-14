@@ -1,0 +1,8 @@
+.open_img{
+    height: 100%;
+}
+@media screen and (max-width: 768px) {
+    .open_img{
+        height: auto;
+    }
+}

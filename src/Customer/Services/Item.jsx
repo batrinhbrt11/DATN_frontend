@@ -10,9 +10,11 @@ const Caption = styled.div`
   transform: translate(-50%, -50%);
   width: 100%;
   & h1 {
+    margin: 0 10px;
     font-size: 3rem;
   }
   & p {
+    margin: 0 10px;
     font-size: 1.5rem;
   }
 `;

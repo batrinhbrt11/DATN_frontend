@@ -53,11 +53,8 @@ export const Content = styled.div`
   justify-content: space-between;
   margin: 20px 0 5px 0;
   height: 350px;
-  overflow-y: scroll;
-  @media (max-width: 584px) {
-    max-height: 280px;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {
+  overflow: auto;
+  &::-webkit-scrollbar {
       width: 5px;
     }
     &::-webkit-scrollbar-track {
@@ -69,6 +66,9 @@ export const Content = styled.div`
     &::-webkit-scrollbar-thumb:hover {
       background: #555; 
     }
+  @media (max-width: 584px) {
+    max-height: 280px;
+    overflow: auto;
   }
 `;
 export const ItemCard = styled.div`

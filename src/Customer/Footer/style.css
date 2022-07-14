@@ -53,3 +53,11 @@ div.vertical-line {
         margin-bottom: 20px;
     }
 }
+.row .col a{
+    display: flex;
+    align-items: center;
+}
+span.footer-info{
+    display: flex;
+    align-items: center;
+}

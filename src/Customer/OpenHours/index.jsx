@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./style.css"
 export default function () {
   return (
     <div className="container-fluid py-5">
@@ -8,7 +8,7 @@ export default function () {
           <div className="col-lg-6" style={{ minHeight: "500px" }}>
             <div className="position-relative h-100">
               <img
-                className="position-absolute w-100 h-100"
+                className="position-absolute w-100 open_img"
                 src="img/opening.jpg"
                 style={{ objectFit: "cover" }}
               />

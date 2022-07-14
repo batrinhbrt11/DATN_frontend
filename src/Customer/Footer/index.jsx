@@ -44,11 +44,9 @@ export default function () {
             </Row>
           </Col>
 
-          <Col>
-            <Row className="sub-row">
               <Col>
                 <h3>QUICK LINKS</h3>
-                <a>
+                <a style={{display:"flex"}}>
                   <BsChevronRight /> HOME
                 </a>
                 <br />
@@ -80,8 +78,7 @@ export default function () {
                 <br />
                 <a>Stone Therapy</a>
               </Col>
-            </Row>
-          </Col>
+        
         </Row>
       </Container>
     </div>

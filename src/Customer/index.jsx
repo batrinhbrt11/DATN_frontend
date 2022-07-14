@@ -1,23 +1,29 @@
 import React from "react";
-import About from "./About";
-import Appointment from "./Appointment";
-import BigImage from "./BigImage";
-import Footer from "./Footer";
+import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import { selectToken} from "../redux/cusAuthSlice";
+import Book from "./Book";
+import Contacts from "./Contacts";
+import Home from "./Home";
+import Info from "./Info";
+import Login from "./Login";
 import NavBar from "./NavBar";
-import OpenHours from "./OpenHours";
-import Pricing from "./Pricing";
-import Services from "./Services";
+
 export default function () {
+  const token = useSelector(selectToken);
   return (
-    <div>
+    <div style={{position: "relative"}}>
       <NavBar />
-      <BigImage />
-      <About />
-      <Services />
-      <Appointment />
-      <OpenHours />
-      <Pricing />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/book" element={<Book />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route
+          path="/info"
+          element={token === null ? <Login /> : <Info />}
+        ></Route>
+      </Routes>
+      <Contacts />
     </div>
   );
 }

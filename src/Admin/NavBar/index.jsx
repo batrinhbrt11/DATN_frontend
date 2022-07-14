@@ -1,5 +1,5 @@
 import React from "react";
-
+import CommentIcon from "@mui/icons-material/Comment";
 import { Navigation } from "../Styled";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
@@ -72,6 +72,12 @@ export default function ({ showNav, setShowNav }) {
           <Link to="/admin/vouchers" onClick={() => setShowNav(false)}>
             <CardGiftcardIcon className="icon" />
             <span className="title">Voucher</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/admin/messages" onClick={() => setShowNav(false)}>
+            <CommentIcon  className="icon" />
+            <span className="title">Message</span>
           </Link>
         </li>
         <li>

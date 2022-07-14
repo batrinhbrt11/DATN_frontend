@@ -1,11 +1,9 @@
 import React from "react";
-import NavBar from "../NavBar";
 import Content from "./Content";
 
 export default function () {
   return (
-    <div>
-      <NavBar></NavBar>
+    <div style={{height:"calc(100vh - 130px)"}}>
       <Content />
     </div>
   );

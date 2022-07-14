@@ -24,6 +24,7 @@ import ShowStaff from "./Staff/ShowStaff";
 import ShowVoucher from "./Voucher/ShowVoucher";
 import AddServices from "./Services/AddServices";
 import ShowServices from "./Services/ShowServices";
+import Message from "./Message/Message";
 
 export default function () {
   const [showNav, setShowNav] = useState(false);
@@ -72,7 +73,7 @@ export default function () {
               path="/customers/:id/show"
               element={<ShowCustomer />}
             ></Route>
-            {/* bill */}
+            {/* staffs */}
             <Route path="/staffs" element={<Staff />}></Route>
             <Route path="/staffs/add" element={<AddStaff />}></Route>
             <Route path="/staffs/:id" element={<ShowStaff />}></Route>
@@ -84,6 +85,8 @@ export default function () {
             <Route path="/services" element={<Services />}></Route>
             <Route path="/services/add" element={<AddServices />}></Route>
             <Route path="/services/:id" element={<ShowServices />}></Route>
+            {/* services */}
+            <Route path="/messages" element={<Message />}></Route>
           </Routes>
         </div>
       </Main>
