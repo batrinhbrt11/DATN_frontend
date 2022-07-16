@@ -33,7 +33,7 @@ import "./style.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllAppointment } from "../../redux/appointmentSlice";
+import { deleteAppointment, getAllAppointment } from "../../redux/appointmentSlice";
 import formatDate from "../../lib/formatDate";
 
 function classNames(...classes) {
@@ -79,7 +79,7 @@ export default function Appointment() {
   useEffect(() => {
     setAppointment(data.appointments);
     selectedDayMeetings();
-  }, [data]);
+  }, [data,dispatch]);
   useEffect(() => {
     selectedDayMeetings();
   }, [selectedDay]);
@@ -219,6 +219,7 @@ function Meeting({ meeting }) {
   let startDateTime = parseISO(meeting.date);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -227,13 +228,16 @@ function Meeting({ meeting }) {
   };
   const [openDeleteBox, setopenDeleteBox] = useState(false);
   const handleOpenDelete = () => {
+
     setopenDeleteBox(true);
   };
 
   const handleCloseDelete = () => {
     setopenDeleteBox(false);
   };
-  const handleDelete = () => {
+  const handleDelete =  async () => {
+    await dispatch(deleteAppointment(meeting._id))
+    window.location.reload()
     setopenDeleteBox(false);
   };
 

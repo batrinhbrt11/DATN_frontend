@@ -6,7 +6,6 @@ import {
   ItemCard,
 } from "../ShareStyled";
 import "./style.css";
-import HistoryModal from "./HistoryModal";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 import { useSelector } from "react-redux";
@@ -32,7 +31,7 @@ export default function Voucher() {
       </div>
       <ContentContainer>
         <Content>
-          {data?.map((d) => (
+          { data && data?.map((d) => (
             <ItemCard>
               <CardContent>
                 <span
@@ -102,7 +101,7 @@ export default function Voucher() {
             </ItemCard>
           ))}
         </Content>
-        <HistoryModal open={open} setOpen={setOpen} />
+ 
       </ContentContainer>
     </div>
   );

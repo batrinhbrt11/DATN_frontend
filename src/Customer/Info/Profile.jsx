@@ -23,15 +23,18 @@ export default function Profile() {
     <div>
       <div className="info-title">
         <h3 style={{ fontWeight: "900" }}>Your Information </h3>
-        <Button
+          <Button
           variant="contained"
           endIcon={<EditIcon />}
           className="edit-btn"
           onClick={() => setEdit(!edit)}
-          sx={{ fontSize: "1rem", padding: "10px" }}
+          sx={{ fontSize: "1.5rem", padding: "10px",marginRight:"10px" }}
         >
           Edit
-        </Button>
+        </Button> 
+      
+        
+     
       </div>
       {edit ? <EditInfo user={user} /> : <Information user={user} />}
     </div>
@@ -50,7 +53,7 @@ function EditInfo({ user }) {
   };
   return (
     <ContentContainer>
-      <Title>Edit your Profile</Title>
+      <Title>Edit your Profile    </Title>
       <InfoForm onSubmit={handleSubmit(updateInfo)}>
         <UserDetails>
           <InputBox>
@@ -108,10 +111,20 @@ function EditInfo({ user }) {
   );
 }
 function Information({ user }) {
+  const [change,setChange] = useState(false);
+  
   return (
-    <ContentContainer>
-      <Title>Your Profile</Title>
-      <InfoForm>
+    <ContentContainer >
+      <Title>Your Profile <Button
+          variant="contained"
+          endIcon={<EditIcon />}
+          className="edit-btn"
+          onClick={()=>setChange(!change)}
+          sx={{ fontSize: "1.5rem", padding: "10px" }}
+        >
+          Change password
+        </Button></Title>
+      <InfoForm disabled>
         <UserDetails>
           <InputBox>
             <span>Email</span>
@@ -134,10 +147,73 @@ function Information({ user }) {
             />
           </InputBox>
         </UserDetails>
+        
       </InfoForm>
+      {
+        change &&     <ChangePassword />
+      }
     </ContentContainer>
   );
 }
+
+function ChangePassword() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  return (
+    <div>
+      <Title>Change password
+      </Title>
+      <InfoForm>
+        <UserDetails>
+        <InputBox>
+            <span>Old password</span>
+            <input type="password"
+          placeholder="Password"
+          {...register("password", {
+            required: "Password is not empty",
+            minLength: {
+              value: 6,
+              message: "A minimum password length greater than 6",
+            },
+          })} />
+          </InputBox>
+          <InputBox>
+            <span>New password</span>
+            <input type="password"
+          placeholder="Password"
+          {...register("newPassword", {
+            required: "Password is not empty",
+            minLength: {
+              value: 6,
+              message: "A minimum password length greater than 6",
+            },
+          })} />
+          </InputBox>
+          <InputBox>
+            <span>Renew password</span>
+            <input type="password"
+          placeholder="Password"
+          {...register("reNewPassword", {
+            required: "Password is not empty",
+            minLength: {
+              value: 6,
+              message: "A minimum password length greater than 6",
+            },
+          })} />
+          </InputBox>
+          <InputBox>
+            <br></br>
+            <input type="submit" value="Change" />
+          </InputBox>
+        </UserDetails>
+      </InfoForm>
+      </div>
+  );
+}
+
 
 const InfoForm = styled.form``;
 const UserDetails = styled.div`

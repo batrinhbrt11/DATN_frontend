@@ -21,7 +21,7 @@ export default function History() {
       <ContentContainer>
         <Content>
           {data?.map((d) => (
-            <ItemHis history={d} />
+            <ItemHis key= {d._id} history={d} />
           ))}
         </Content>
       </ContentContainer>

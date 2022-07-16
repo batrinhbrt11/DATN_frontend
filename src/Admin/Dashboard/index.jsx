@@ -18,6 +18,8 @@ import {
 import formatDate from "../../lib/formatDate";
 import { IconButton } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { getAllAppointment, selectAppointmentToday } from "../../redux/appointmentSlice";
+import { format, parseISO } from "date-fns";
 export default function () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ export default function () {
   const [isBirthday, setIsBirthday] = useState([]);
   useEffect(() => {
     dispatch(getAllCustomer());
+    dispatch(getAllAppointment())
   }, [dispatch]);
   useEffect(() => {
     setRows(data.customers.slice(0, 5));
@@ -34,8 +37,48 @@ export default function () {
   useEffect(() => {
     setIsBirthday(listCustomerBirthday);
   }, [listCustomerBirthday]);
+  const [appointmentToday, setAppointmentToday] = useState([]);
+  const listAppointment = useSelector(selectAppointmentToday)
+  useEffect(() => {
+    setAppointmentToday(listAppointment);
+    console.log(listAppointment)
+  }, [listAppointment]);
   return (
     <div>
+      <TableContainer style={{ marginBottom: "30px" }}>
+          <TableHeader>
+            <h2>Appointment in Today</h2>
+            <Link to="/admin/appointments">View All</Link>
+          </TableHeader>
+          <StyledTableContainer aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Customer</StyledTableCell>
+                <StyledTableCell align="right">Phone Number</StyledTableCell>
+                <StyledTableCell align="right">Staff</StyledTableCell>
+                <StyledTableCell align="right">Service</StyledTableCell>
+                <StyledTableCell align="right">Hour</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {appointmentToday.map((row) => (
+                <StyledTableRow key={row._id}>
+                  <StyledTableCell component="th" scope="row">
+                  {row.customer.name || row.customerName}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                  {row.customer.phoneNumber || row.phoneNumber}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.staff.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.appointmentType.name}</StyledTableCell>
+                  <StyledTableCell align="right"> {format(parseISO(row.date), "h:mm a")}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </StyledTableContainer>
+        </TableContainer>
       <Details>
         <TableContainer style={{ marginBottom: "30px" }}>
           <TableHeader>
@@ -72,7 +115,6 @@ export default function () {
         <TableContainer>
           <TableHeader>
             <h2>Today is Birthday</h2>
-            <Link to="/admin/customer">View All</Link>
           </TableHeader>
           <StyledTableContainer aria-label="customized table">
             <TableHead>

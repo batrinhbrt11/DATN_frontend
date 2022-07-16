@@ -13,7 +13,7 @@ const priceStyle = {
 };
 export default function HistoryModal({ open, setOpen,history }) {
   const handleClose = () => setOpen(false);
-  let startDateTime = parseISO(history.date);
+  let startDateTime = parseISO(history.date) || null;
   return (
     <div>
       <Dialog

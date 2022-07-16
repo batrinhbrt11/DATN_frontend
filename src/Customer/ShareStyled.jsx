@@ -43,7 +43,7 @@ export const ContentContainer = styled.div`
   padding: 10px 30px;
   border-radius: 5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-  height: 400px;
+
 
 `;
 

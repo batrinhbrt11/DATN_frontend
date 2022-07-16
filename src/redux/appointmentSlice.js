@@ -22,7 +22,7 @@ export const addAppointment = createAsyncThunk(
   "appointments/add",
   async (service) => {
     return await axios
-      .post(`${URL}appointmenttype`, service, {
+      .post(`${URL}appointment`, service, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export const deleteAppointment = createAsyncThunk(
   async (id) => {
     var config = {
       method: "delete",
-      url: `${URL}appointmenttype/${id}`,
+      url: `${URL}appointment/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -122,4 +122,22 @@ const appointmentSlice = createSlice({
     },
   },
 });
+
+export const selectAppointmentToday= (state) => {
+  if (state.appointments.appointments && state.appointments.appointments.length > 0) {
+    const today = new Date();
+    var list = [];
+    state.appointments.appointments.forEach((c) => {
+      const dayOfAppointments= new Date(c.date);
+      if (
+        today.getDate() === dayOfAppointments.getDate() &&
+        today.getMonth() === dayOfAppointments.getMonth()
+      ) {
+        list.push(c);
+      }
+    });
+    return list;
+  }
+  return [];
+};
 export default appointmentSlice.reducer;
