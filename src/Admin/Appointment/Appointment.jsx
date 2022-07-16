@@ -297,7 +297,7 @@ function Meeting({ meeting }) {
           <DialogContent>
             <DialogContentText
               id="alert-dialog-description"
-              sx={{ fontSize: "2.5rem" }}
+              sx={{ fontSize: "2.5rem",textAlign:"center" }}
             >
               Do you want to remove this record ?
             </DialogContentText>
@@ -315,6 +315,7 @@ function Meeting({ meeting }) {
           onClose={handleCloseInfo}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          className="dialogBox"
         >
           <DialogTitle
             id="alert-dialog-title"
@@ -322,7 +323,7 @@ function Meeting({ meeting }) {
           >
             Appointment Information
           </DialogTitle>
-          <DialogContent className="history-modal-content">
+          <DialogContent className="history-modal-content" >
             <div>
               <p>
                 <span>Customer Name: </span>{" "}

@@ -78,6 +78,8 @@ export default function ({ showNav, setShowNav }) {
           <Link to="/admin/messages" onClick={() => setShowNav(false)}>
             <CommentIcon  className="icon" />
             <span className="title">Message</span>
+            {/* thêm */}
+            <div className="message_count">2</div>
           </Link>
         </li>
         <li>

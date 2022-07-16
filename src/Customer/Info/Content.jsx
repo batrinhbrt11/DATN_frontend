@@ -7,6 +7,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import "./style.css";
 import Profile from "./Profile";
 import Voucher from "./Voucher";
+import History from "./History";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -28,7 +29,6 @@ export default function Content() {
   const open = Boolean(anchorEl);
  useEffect(() => {
     setUser(info);
-    console.log(info)
   }, [info]);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -58,7 +58,7 @@ export default function Content() {
           >
             <h3 className="hello-user">Hello, {user.name}</h3>
             <Tab label="Profile" value="1" />
-     
+            <Tab label="History" value="2" />
             <Tab label="Voucher" value="3" />
           </TabList>
           <div className="sub_menu">
@@ -83,7 +83,7 @@ export default function Content() {
               TransitionComponent={Fade}
             >
               <MenuItem onClick={() => handleClose("1")}>Profile</MenuItem>
- 
+              <MenuItem onClick={() => handleClose("2")}>History</MenuItem>
               <MenuItem onClick={() => handleClose("3")}>Voucher</MenuItem>
             </Menu>
           </div>
@@ -92,9 +92,9 @@ export default function Content() {
         <TabPanel value="1" sx={{ width: "100%" }}>
           <Profile />
         </TabPanel>
-        {/* <TabPanel value="2" sx={{ width: "100%" }}>
+        <TabPanel value="2" sx={{ width: "100%" }}>
           <History />
-        </TabPanel> */}
+        </TabPanel>
         <TabPanel value="3" sx={{ width: "100%" }}>
           <Voucher />
         </TabPanel>

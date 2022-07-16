@@ -4,13 +4,16 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { format, parseISO } from 'date-fns';
 import "./style.css";
+import formatDate from "../../lib/formatDate";
 const priceStyle = {
   float: "right",
   color: "grey",
 };
-export default function HistoryModal({ open, setOpen }) {
+export default function HistoryModal({ open, setOpen,history }) {
   const handleClose = () => setOpen(false);
+  let startDateTime = parseISO(history.date);
   return (
     <div>
       <Dialog
@@ -26,24 +29,35 @@ export default function HistoryModal({ open, setOpen }) {
           {"Services"}
         </DialogTitle>
         <DialogContent className="history-modal-content">
-          <div>
-            <p>
-              <span>Product 1</span> <span style={priceStyle}>$15</span>
-            </p>
-            <p>
-              <span>Product 2</span> <span style={priceStyle}>$5</span>
-            </p>
-            <p>
-              <span>Product 3</span> <span style={priceStyle}>$8</span>
-            </p>
-            <p>
-              <span>Product 4</span> <span style={priceStyle}>$2</span>
-            </p>
-            <hr />
-            <span>
-              Total <span style={priceStyle}>$30</span>
-            </span>
-          </div>
+        <div>
+              <p>
+                <span>Customer Name: </span>{" "}
+                <span style={priceStyle}>
+                  {history.customer.name || history.customerName}
+                </span>
+              </p>
+              <p>
+                <span>Phone Number: </span>{" "}
+                <span style={priceStyle}>
+                  {history.customer.phoneNumber || history.phoneNumber}
+                </span>
+              </p>
+              <p>
+                <span>Staff Name: </span>{" "}
+                <span style={priceStyle}>{history.staff.name}</span>
+              </p>
+              <p>
+                <span>Service Name: </span>{" "}
+                <span style={priceStyle}>{history.appointmentType.name}</span>
+              </p>
+              <p>
+                <span>Time: </span>{" "}
+                <span style={priceStyle}>
+                  {formatDate(new Date(history.date))}{" "}
+                  {format(startDateTime, "h:mm a")}
+                </span>
+              </p>
+            </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{ color: "rgb(249, 163, 146)" }}>

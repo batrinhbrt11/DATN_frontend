@@ -46,3 +46,16 @@ export const getVoucherOfCustomer = async (id) => {
     .catch((err) => console.log(err));
   return res;
 };
+
+
+export const getHistoryOfCustomer = async()=>{
+  return await axios
+      .get(`${URL}appointment`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+}

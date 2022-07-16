@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-import {
-  CardContent,
-  Content,
-  ContentContainer,
-  ItemCard,
-} from "../ShareStyled";
+import React, { useEffect, useState } from "react";
+import { Content, ContentContainer } from "../ShareStyled";
 import "./style.css";
-import IconButton from "@mui/material/IconButton";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import HistoryModal from "./HistoryModal";
+import { getHistoryOfCustomer } from "../Logon/api";
+import ItemHis from "./ItemHis";
 export default function History() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [data, setData] = useState([]);
+  const getData = async () => {
+    const res = await getHistoryOfCustomer();
+    setData(res);
+    console.log(res);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div>
       <div className="info-title">
@@ -19,54 +20,10 @@ export default function History() {
       </div>
       <ContentContainer>
         <Content>
-          <ItemCard>
-            <CardContent>
-              <span
-                style={{
-                  fontWeight: 700,
-                  marginBottom: "10px",
-                  fontSize: "1.5rem",
-                }}
-              >
-                Pay:{" "}
-                <span
-                  style={{
-                    fontWeight: 500,
-                    fontSize: "1.5rem",
-                    textAlign: "right",
-                  }}
-                >
-                  200000
-                </span>
-              </span>
-              <br />
-              <span
-                style={{
-                  fontWeight: 700,
-                  marginBottom: "10px",
-                  fontSize: "1.5rem",
-                }}
-              >
-                Date:{" "}
-                <span
-                  style={{
-                    fontWeight: 500,
-                    fontSize: "1.5rem",
-                    fontStyle: "italic",
-                    textAlign: "right",
-                  }}
-                >
-                  20/11/2020
-                </span>
-              </span>
-            </CardContent>
-            <IconButton aria-label="delete" size="large" onClick={handleOpen}>
-              <RemoveRedEyeIcon fontSize="inherit" />
-            </IconButton>
-          </ItemCard>
+          {data?.map((d) => (
+            <ItemHis history={d} />
+          ))}
         </Content>
-
-        <HistoryModal open={open} setOpen={setOpen} />
       </ContentContainer>
     </div>
   );

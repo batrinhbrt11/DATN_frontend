@@ -137,7 +137,7 @@ export default function () {
         <DialogContent>
           <DialogContentText
             id="alert-dialog-description"
-            sx={{ fontSize: "2.5rem" }}
+            sx={{ fontSize: "2.5rem",textAlign:"center"  }}
           >
             Do you want to remove this record ?
           </DialogContentText>

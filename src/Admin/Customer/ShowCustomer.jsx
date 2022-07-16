@@ -135,7 +135,7 @@ export default function ShowCustomer() {
           Add Voucher
         </DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{ fontSize: "2.5rem" }}>
+          <DialogContentText sx={{ fontSize: "2.5rem" ,textAlign:"center" }}>
             Give vouchers for This Customer
           </DialogContentText>
           <Autocomplete

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import SendIcon from "@mui/icons-material/Send";
-import { getMessage } from './api';
+import { getListCustomer, getMessage } from './api';
 export default function Message() {
     const [customer,setCustomer] = useState("")
     const handleSubmit=(e)=>{

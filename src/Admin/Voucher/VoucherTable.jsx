@@ -131,7 +131,7 @@ export default function VoucherTable({ data, user, deleteVoucherOfCustomer }) {
         <DialogContent>
           <DialogContentText
             id="alert-dialog-description"
-            sx={{ fontSize: "2.5rem" }}
+            sx={{ fontSize: "2.5rem" ,textAlign:"center" }}
           >
             Do you want remove this record ?
           </DialogContentText>

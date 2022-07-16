@@ -38,7 +38,9 @@ h6.d-inline-block.text-white.text-uppercase.bg-primary.py-1.px-2 {
 
 @media screen and (max-width: 768px) {
   .MuiDialogTitle-root + .css-ypiqx9-MuiDialogContent-root {
-    width: 250px !important;
+    width: 100%;
+    padding: 0;
+
   }
 }
 .css-6od3lo-MuiChip-label {
@@ -60,4 +62,12 @@ h6.d-inline-block.text-white.text-uppercase.bg-primary.py-1.px-2 {
 .css-bvunzn-MuiPagination-root ul li button,
 .css-bvunzn-MuiPagination-root ul li div {
   font-size: 2rem !important;
+}
+
+
+@media screen and (max-width: 500px){
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    width: 100% !important;
+    margin: 0  !important;
+  }
 }

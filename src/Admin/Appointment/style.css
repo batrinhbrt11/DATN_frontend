@@ -94,6 +94,8 @@ button.css-mf1cb5-MuiButtonBase-root-MuiIconButton-root
 }
 @media screen and (max-width: 768px) {
     .history-modal-content {
-        width: 250px !important;
+        padding: 0 !important;
+        width: 100% !important;
     }
+
 }

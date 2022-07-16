@@ -52,7 +52,8 @@
         width: 100%;
     }
     .history-modal-content {
-        width: 250px !important;
+        width: 100% !important;
+        padding: 0;
     }
 }
 @media screen and (max-width: 400px) {
