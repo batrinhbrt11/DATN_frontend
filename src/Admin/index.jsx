@@ -91,7 +91,7 @@ export default function () {
     }
   }, [messages])
 
-  return (isAdmin && messages.length > 0) ? (
+  return (isAdmin) ? (
     <AdminContainer>
       <NavBar showNav={showNav} setShowNav={setShowNav} unreadMsgCount={unreadMsgCount}></NavBar>
       <Main showNav={showNav}>

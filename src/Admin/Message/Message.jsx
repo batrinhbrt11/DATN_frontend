@@ -148,8 +148,7 @@ export default function Message({ socket, messages }) {
              <MessageContainer>
                {/* send message box */}
                {customerMsgDetails[0]?.messageDetails.map((msg, index, element) => {
-                if (msg.userId === customer) 
-                
+                if (msg.userId === customer)   
                   return (
                     <>
                     {index == 0 ? 
@@ -173,7 +172,7 @@ export default function Message({ socket, messages }) {
                   ) 
                   else 
                     return (
-                    <>
+                    <>     
                     {index == 0 ? 
                       (<DateBox>
                         <p>{moment(msg.createdAt).format("yyyy-MM-dd") != date? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
@@ -182,6 +181,7 @@ export default function Message({ socket, messages }) {
                         <p>{moment(msg.createdAt).format("yyyy-MM-dd") != moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
                       </DateBox>)
                       }
+                    <p style={{textAlign: "right", fontSize: "12px", marginRight: "7px", color: "#918886", marginTop: "10px"}}>{msg.name}</p>
                     <MyMessage key={index}>
                       <p style={{marginRight: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
                       <MessageBox style={{ backgroundColor: "#f9a392" }}>
@@ -191,7 +191,7 @@ export default function Message({ socket, messages }) {
                     {() => setDate(moment(msg.createdAt).format("yyyy-MM-dd"))}
                     </>       
                    )             
-            }
+                }
             )}
             <div ref={ messagesEndRef }></div>
              </MessageContainer>
