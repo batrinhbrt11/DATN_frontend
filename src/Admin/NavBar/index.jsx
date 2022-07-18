@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CommentIcon from "@mui/icons-material/Comment";
 import { Navigation } from "../Styled";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -11,7 +11,10 @@ import HardwareIcon from "@mui/icons-material/Hardware";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/cusAuthSlice";
-export default function ({ showNav, setShowNav }) {
+import io from "socket.io-client";
+import { URL } from "../../App";
+
+export default function ({ showNav, setShowNav, unreadMsgCount }) {
   const dispatch = useDispatch();
 
   const handleLogout = (e) => {
@@ -19,6 +22,70 @@ export default function ({ showNav, setShowNav }) {
     localStorage.setItem("user", JSON.stringify(null));
     localStorage.setItem("token", JSON.stringify(null));
   };
+ 
+  // const token = JSON.parse(localStorage.getItem("token")) ? JSON.parse(localStorage.getItem("token")) : "";
+  // const url = URL.replace("api/", "");
+  // const [socket, setSocket] = useState(null);
+  // const [unreadMsgCount, setUnreadMsgCount] = useState(0);
+  // const [messages, setMessages] = useState([]);
+
+  // const getMessages = (socket) => {
+  //   socket.on("userMessages", (msgs) => {
+  //     console.log("updates", msgs)
+  //     setMessages(msgs);
+  //     var count = 0;
+  //     msgs.forEach(msg => {
+  //       count += msg.unreadMsg;
+  //     })
+  //     setUnreadMsgCount(count);
+  //     console.log(unreadMsgCount)
+  //   });
+    
+  // }
+
+  // const getNewMessage = () => {   
+  //   socket.off("newMessage").on("newMessage", (messages) => {
+  //     setMessages(messages);
+  //     console.log("nav:", messages);       
+  //   })
+  //   //customerMsgDetails[0].messageDetails.push(msg); 
+  // }
+
+  // const setupSocket = (token, url) => {
+  //   const newSocket = io(`${url}`,
+  //   {
+  //       query: {token},
+  //       transports: ["websocket"],
+  //   });
+  //   setSocket(newSocket);
+  // }
+  // useEffect(() => {
+  //   setupSocket(token, url);
+  // },[])
+
+
+  // useEffect(() => {
+  //   console.log(messages)
+  //   if(messages.length > 0){
+  //     var count = 0;
+  //     messages.forEach(msg => {
+  //       count += msg.unreadMsg;
+  //     })
+  //     setUnreadMsgCount(count);
+  //   }
+  // }, [])
+
+  // useEffect(() => {
+  //   console.log(messages)
+  //   if(messages.length > 0){
+  //     var count = 0;
+  //     messages.forEach(msg => {
+  //       count += msg.unreadMsg;
+  //     })
+  //     setUnreadMsgCount(count);
+  //   }
+  // }, [messages])
+
   return (
     <Navigation showNav={showNav}>
       <ul>
@@ -78,8 +145,7 @@ export default function ({ showNav, setShowNav }) {
           <Link to="/admin/messages" onClick={() => setShowNav(false)}>
             <CommentIcon  className="icon" />
             <span className="title">Message</span>
-            {/* thêm */}
-            <div className="message_count">2</div>
+            {unreadMsgCount > 0 ? (<div className="message_count">{ unreadMsgCount }</div>) : (null)}
           </Link>
         </li>
         <li>
@@ -90,5 +156,5 @@ export default function ({ showNav, setShowNav }) {
         </li>
       </ul>
     </Navigation>
-  );
+  )
 }

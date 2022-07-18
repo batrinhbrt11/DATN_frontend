@@ -1,13 +1,118 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
+import io from "socket.io-client";
+import { URL } from "../App";
+import moment from 'moment';
+
 export default function Contacts() {
+  const token = JSON.parse(localStorage.getItem("token")) ? JSON.parse(localStorage.getItem("token")) : "";
+  const url = URL.replace("api/", "");
+  const userId = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).id : null;
   const [open, setOpen] = useState(false);
+  const [socket, setSocket] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState("");
+  const [date, setDate] = useState("");
+  const messagesEndRef = useRef(null);
+
   const handleSubmit=(e)=>{
-    e.preventDefault()
+    e.preventDefault();
+    if (text.trim().length > 0){
+      socket.emit("sendMessage", {
+        userId: null,
+        msg: text
+      });
+      if (messages.length == 0){
+
+      }
+      else {
+        var newMsg = {
+          content: text, 
+          userId: userId,
+          messageId: messages[0].messageDetails[0].messageId,
+          createdAt: new Date()
+        };
+        messages[0].messageDetails.push(newMsg);
+      }   
+    } 
+    setText("");
   }
+  const getNewMessage = () => { 
+    socket.off("newMessage").on("newMessage", (messages) => {
+      console.log("newMsg", messages);
+      setMessages(messages);
+    })
+
+  }
+
+  const setupSocket = (token, url) => {
+    const newSocket = io(`${url}`,
+    {
+        query: {token},
+        transports: ["websocket"],
+    });
+    setSocket(newSocket);
+    getMessages(newSocket);
+  }
+
+  const getMessages = (socket) => {
+    socket.on("userMessages", (msgs) => {
+      console.log("updates", msgs)
+      setMessages(msgs);
+    });
+  }
+
+  const readMessages = (customer, messages) => {
+    socket.emit("readMessages", customer);
+    messages.forEach(msg => {
+      if (msg.userId === customer){
+        msg.unreadMsg = 0;
+        console.log("msg.unreadMsg", msg.unreadMsg);
+      }
+    })
+    setMessages(messages);
+  }
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth"});
+  }
+
+  useEffect(() => {
+    if (token == null){
+      setupSocket(token, url);
+    }
+    console.log("userId", userId);
+    console.log("messages", messages);
+  }, []);
+
+
+  useEffect(() => {
+    if (socket != null){
+      if(messages.length == 0){
+        getMessages(socket);
+      }
+      getNewMessage();
+    }
+    else{
+      setupSocket(token, url);
+    }
+  }, [socket])
+
+  useEffect(() => {
+    if (open){
+      readMessages(userId, messages);
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (open){
+      scrollToBottom()
+    }
+  }, [messages])
+
   return (
     <>
       <Container>
@@ -16,28 +121,59 @@ export default function Contacts() {
             style={{ color: "rgb(249, 163, 146) ", fontSize: "30px" }}
           />
         </IconButton>
+        { messages[0]?.unreadMsg > 0 ? (<MessageCount>{  messages[0]?.unreadMsg }</MessageCount>) : (null) }
       </Container>
       {open && (
         <ChatBox>
           <Message>
-            {/* send message box */}
-            <MyMessage>
-              <MessageBox style={{ backgroundColor: "#f9a392" }}>
-                <p>ádasđsa sadf sadsa asdfsad asadsads aasdsad sadasdas dsad</p>
-              </MessageBox>
-            </MyMessage>
-            {/* tanke message  Box */}
-            <AdminMessage>
-              <MessageBox>
-                <p style={{ color: "#000" }}>
-                  ádasđsad asdsa dasdsa dsad saedwqdsad qư
-                </p>
-              </MessageBox>
-            </AdminMessage>
+            {messages[0]?.messageDetails.map((msg, index, element) => {
+              if (msg.userId !== userId)   
+              return (
+                <>
+                {index == 0 ? 
+                (<DateBox>
+                  <p>{moment(msg.createdAt).format("yyyy-MM-dd") != date? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                </DateBox>) :  
+                (<DateBox>
+                  <p>{moment(msg.createdAt).format("yyyy-MM-dd") != moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                </DateBox>)
+                }
+                <AdminMessage key={index}>
+                  <MessageBox>
+                    <p style={{ color: "#000" }}>
+                    { msg.content }
+                    </p>
+                  </MessageBox>
+                  <p style={{marginLeft: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
+                </AdminMessage> 
+                
+                </>
+              ) 
+              else 
+                return (
+                <>
+                {index == 0 ? 
+                  (<DateBox>
+                    <p>{moment(msg.createdAt).format("yyyy-MM-dd") != date? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                  </DateBox>) :  
+                  (<DateBox>
+                    <p>{moment(msg.createdAt).format("yyyy-MM-dd") != moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                  </DateBox>)
+                  }
+                <MyMessage key={index}>
+                  <p style={{marginRight: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
+                  <MessageBox style={{ backgroundColor: "#f9a392" }}>
+                    <p>{ msg.content }</p>
+                  </MessageBox>
+                </MyMessage>
+                {() => setDate(moment(msg.createdAt).format("yyyy-MM-dd"))}
+                </>       
+               )             
+            })}
+            <div ref={ messagesEndRef }></div> 
           </Message>
-
           <InputMessage onSubmit={handleSubmit}>
-            <input type="text" placeholder="Input Message...." />
+            <input type="text" value = {text} placeholder="Input Message...." onChange={(e)=>setText(e.target.value)} onFocus={() => readMessages(userId, messages)}/>
             <button>
               <SendIcon sx={{ color: "#f9a392", fontSize: "20px" }} />
             </button>
@@ -132,12 +268,24 @@ const MyMessage = styled.div`
   justify-content: flex-end;
   padding: 0 5px;
   margin-top: 3px;
+  & p{
+    color: #918886;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-end;
+  }
 `;
 const AdminMessage = styled.div`
   display: flex;
   justify-content: flex-start;
   padding: 0 5px;
   margin-top: 3px;
+  & p{
+    color: #918886;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-end;
+  }
 `;
 const MessageBox = styled.div`
   background: #f3f3f3;
@@ -147,6 +295,7 @@ const MessageBox = styled.div`
   display: inline-block;
   max-width: 50%;
   & p {
+    color: #fff;
     width: 100%;
     letter-spacing: 0;
     float: left;
@@ -154,3 +303,31 @@ const MessageBox = styled.div`
     word-wrap: break-word;
   }
 `;
+const DateBox = styled.div`
+  width: 100%;
+  & p {
+    color: #918886;
+    width: 100%;
+    letter-spacing: 0;
+    float: left;
+    font-size: 1em;
+    word-wrap: break-word;
+    text-align: center;
+  }
+`;
+const MessageCount= styled.div`
+height: 20px;
+  width: 20px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%; /* may require vendor prefixes */
+  background: #e52b2b;
+  position: absolute;
+  right: 5px;
+  color:#fff;
+  bottom:35px;
+`;
+const MessageTime = styled.p`
+  font-size: 1px;
+`
