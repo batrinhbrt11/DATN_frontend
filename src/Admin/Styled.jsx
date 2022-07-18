@@ -57,6 +57,12 @@ export const Navigation = styled.div`
           text-align: start;
           white-space: nowrap;
         }
+        & .message_count{
+          width: 10%;
+          background-color:#e52b2b;
+          text-align:center;
+          border-radius:50%;
+        }
       }
       &:hover a,
       &.hovered a {

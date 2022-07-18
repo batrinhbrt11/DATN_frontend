@@ -8,9 +8,13 @@ import Home from "./Home";
 import Info from "./Info";
 import Login from "./Login";
 import NavBar from "./NavBar";
+import { selectUser } from "../redux/cusAuthSlice";
 
 export default function () {
   const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
+  const isAdmin =
+  ((user && user.role === "admin") || (user && user.role === "staff"));
   return (
     <div style={{position: "relative"}}>
       <NavBar />
@@ -23,7 +27,7 @@ export default function () {
           element={token === null ? <Login /> : <Info />}
         ></Route>
       </Routes>
-      <Contacts />
+      {!isAdmin ? (<Contacts />) : (null)}
     </div>
   );
 }

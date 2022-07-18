@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import { AdminContainer, Main, Toggle, TopBar } from "./Styled";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -25,16 +25,75 @@ import ShowVoucher from "./Voucher/ShowVoucher";
 import AddServices from "./Services/AddServices";
 import ShowServices from "./Services/ShowServices";
 import Message from "./Message/Message";
+import io from "socket.io-client";
+import { URL } from "../App";
 
 export default function () {
   const [showNav, setShowNav] = useState(false);
   const user = useSelector(selectUser);
   const isAdmin =
-    (user && user.role === "admin") || (user && user.role === "staff");
+    ((user && user.role === "admin") || (user && user.role === "staff"));
   const navigate = useNavigate();
-  return isAdmin ? (
+  const token = JSON.parse(localStorage.getItem("token")) ? JSON.parse(localStorage.getItem("token")) : "";
+  const url = URL.replace("api/", "");
+  const [socket, setSocket] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [unreadMsgCount, setUnreadMsgCount] = useState(0);
+
+  const getMessages = (socket) => {
+    socket.on("userMessages", (msgs) => {
+      console.log("updates", msgs)
+      setMessages(msgs);  
+      var count = 0;
+      messages.forEach(msg => {
+        count += msg.unreadMsg;
+      })
+      setUnreadMsgCount(count);
+    })
+  }
+
+  const getNewMessage = () => {   
+    socket.off("newMessage").on("newMessage", (messages) => {
+      setMessages(messages);
+      console.log("nav:", messages); 
+    })
+    //customerMsgDetails[0].messageDetails.push(msg); 
+  }
+
+  const setupSocket = (token, url) => {
+    const newSocket = io(`${url}`,
+    {
+        query: {token},
+        transports: ["websocket"],
+    });
+    setSocket(newSocket);
+  }
+  useEffect(() => {
+    setupSocket(token, url);
+  },[])
+
+
+  useEffect(() => {
+    if (socket != null){
+      getMessages(socket);
+      getNewMessage();
+    }
+  }, [socket])
+
+  useEffect(() => {
+    if (messages.length > 0){
+      var count = 0;
+      messages.forEach(msg => {
+        count += msg.unreadMsg;
+      })
+      setUnreadMsgCount(count); 
+      console.log(count)
+    }
+  }, [messages])
+
+  return (isAdmin && messages.length > 0) ? (
     <AdminContainer>
-      <NavBar showNav={showNav} setShowNav={setShowNav}></NavBar>
+      <NavBar showNav={showNav} setShowNav={setShowNav} unreadMsgCount={unreadMsgCount}></NavBar>
       <Main showNav={showNav}>
         <TopBar>
           <Toggle>
@@ -86,7 +145,7 @@ export default function () {
             <Route path="/services/add" element={<AddServices />}></Route>
             <Route path="/services/:id" element={<ShowServices />}></Route>
             {/* services */}
-            <Route path="/messages" element={<Message />}></Route>
+            <Route path="/messages" element={<Message socket={socket} messages={messages} />}></Route>
           </Routes>
         </div>
       </Main>
