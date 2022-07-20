@@ -25,7 +25,7 @@ export default function Contacts() {
         userId: null,
         msg: text
       });
-      if (messages.length == 0){
+      if (messages.length === 0){
 
       }
       else {
@@ -81,17 +81,15 @@ export default function Contacts() {
   }
 
   useEffect(() => {
-    if (token == null){
+    if (token === null){
       setupSocket(token, url);
     }
-    console.log("userId", userId);
-    console.log("messages", messages);
   }, []);
 
 
   useEffect(() => {
-    if (socket != null){
-      if(messages.length == 0){
+    if (socket !== null){
+      if(messages.length === 0){
         getMessages(socket);
       }
       getNewMessage();
@@ -130,12 +128,12 @@ export default function Contacts() {
               if (msg.userId !== userId)   
               return (
                 <>
-                {index == 0 ? 
+                {index === 0 ? 
                 (<DateBox>
-                  <p>{moment(msg.createdAt).format("yyyy-MM-dd") != date? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                  <p>{moment(msg.createdAt).format("yyyy-MM-dd") !== date? moment(msg.createdAt).format("yyyy-MM-dd") === moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
                 </DateBox>) :  
                 (<DateBox>
-                  <p>{moment(msg.createdAt).format("yyyy-MM-dd") != moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                  <p>{moment(msg.createdAt).format("yyyy-MM-dd") !== moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") === moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
                 </DateBox>)
                 }
                 <AdminMessage key={index}>
@@ -152,12 +150,12 @@ export default function Contacts() {
               else 
                 return (
                 <>
-                {index == 0 ? 
+                {index === 0 ? 
                   (<DateBox>
-                    <p>{moment(msg.createdAt).format("yyyy-MM-dd") != date? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                    <p>{moment(msg.createdAt).format("yyyy-MM-dd") !== date? moment(msg.createdAt).format("yyyy-MM-dd") === moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
                   </DateBox>) :  
                   (<DateBox>
-                    <p>{moment(msg.createdAt).format("yyyy-MM-dd") != moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
+                    <p>{moment(msg.createdAt).format("yyyy-MM-dd") !== moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") === moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
                   </DateBox>)
                   }
                 <MyMessage key={index}>
@@ -208,10 +206,17 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
-  position: sticky;
+  position: fixed;
   border-radius: 50%;
   bottom: 5%;
   left: 94%;
+  @media (max-width: 1200px) {
+left:90vw;
+  };
+
+  @media (max-width: 600px) {
+left:85vw;
+  };
   z-index: 20;
   width: 50px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -223,10 +228,32 @@ const ChatBox = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
-  position: sticky;
+  position:fixed;
   bottom: 10%;
-  left: 80%;
+  left: 80vw;
   z-index: 20;
+  @media (max-width: 1600px) {
+left:76vw;
+  };
+
+  @media (max-width: 1300px) {
+    left:72vw;
+  };
+  @media (max-width: 1200px) {
+left:65vw;
+  };
+  @media (max-width: 800px) {
+left:55vw;
+  };
+  @media (max-width: 600px) {
+left:35vw;
+  };
+  @media (max-width:400px) {
+left:15vw;
+  };
+  @media (max-width:300px) {
+left:0;
+  };
   background: rgba(255, 255, 255, 1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(12.3px);
@@ -328,6 +355,3 @@ height: 20px;
   color:#fff;
   bottom:35px;
 `;
-const MessageTime = styled.p`
-  font-size: 1px;
-`

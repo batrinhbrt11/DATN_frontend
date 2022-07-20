@@ -29,7 +29,7 @@ import io from "socket.io-client";
 import { URL } from "../App";
 
 export default function () {
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState(true);
   const user = useSelector(selectUser);
   const isAdmin =
     ((user && user.role === "admin") || (user && user.role === "staff"));

@@ -105,7 +105,7 @@ export const FormBx = styled.div`
   width: 50%;
   height: 100%;
   background: #fff;
-  z-index: 1000;
+
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import SendIcon from "@mui/icons-material/Send";
-import { getMessage } from './api';
 import io from "socket.io-client";
 import { URL } from "../../App";
 import moment from 'moment';
@@ -165,7 +164,7 @@ export default function Message({ socket, messages }) {
                         { msg.content }
                         </p>
                       </MessageBox>
-                      <p style={{marginLeft: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
+                      <p style={{marginLeft: "2px",fontFamily:" 'Taviraj', serif "}}>{ moment(msg.createdAt).format('LT') }</p>
                     </AdminMessage> 
                     
                     </>
@@ -181,9 +180,9 @@ export default function Message({ socket, messages }) {
                         <p>{moment(msg.createdAt).format("yyyy-MM-dd") != moment(element[index-1].createdAt).format("yyyy-MM-dd") ? moment(msg.createdAt).format("yyyy-MM-dd") == moment(new Date()).format("yyyy-MM-dd") ? "Today" : moment(msg.createdAt).format("MMM Do YYYY") : ""}</p>
                       </DateBox>)
                       }
-                    <p style={{textAlign: "right", fontSize: "12px", marginRight: "7px", color: "#918886", marginTop: "10px"}}>{msg.name}</p>
+                    <p style={{textAlign: "right", fontSize: "12px", marginRight: "7px", color: "#918886", marginTop: "10px",fontFamily:" 'Taviraj', serif "}}>{msg.name}</p>
                     <MyMessage key={index}>
-                      <p style={{marginRight: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
+                      <p style={{marginRight: "2px",fontFamily:" 'Taviraj', serif "}}>{ moment(msg.createdAt).format('LT') }</p>
                       <MessageBox style={{ backgroundColor: "#f9a392" }}>
                         <p>{ msg.content }</p>
                       </MessageBox>
@@ -258,6 +257,7 @@ const MessageContainer = styled.div`
 `;
 
 const ChatBox = styled.div`
+
   height: 100%;
   width: 80%;
   justify-content: center;
@@ -303,7 +303,9 @@ const MyMessage = styled.div`
   justify-content: flex-end;
   padding: 0 5px;
   margin-top: 3px;
+
   & p{
+
     color: #918886;
     font-size: 12px;
     display: flex;
@@ -315,7 +317,9 @@ const AdminMessage = styled.div`
   justify-content: flex-start;
   padding: 0 5px;
   margin-top: 3px;
+
   & p{
+    
     color: #918886;
     font-size: 12px;
     display: flex;
@@ -359,6 +363,7 @@ const DateBox = styled.div`
     float: left;
     font-size: 1em;
     word-wrap: break-word;
+    font-family: 'Taviraj', serif ;
     text-align: center;
   }
 `;

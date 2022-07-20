@@ -56,7 +56,6 @@ export default function SignIn({ signIn }) {
         />
         <p>{errors.password?.message}</p>
         <input type="submit" value="Login" />
-        <a href="#">Forgot Password</a>
       </form>
     </SignInForm>
   );
