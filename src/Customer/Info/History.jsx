@@ -8,7 +8,6 @@ export default function History() {
   const getData = async () => {
     const res = await getHistoryOfCustomer();
     setData(res);
-    console.log(res);
   };
   useEffect(() => {
     getData();

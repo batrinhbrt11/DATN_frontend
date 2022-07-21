@@ -6,6 +6,7 @@ import SendIcon from "@mui/icons-material/Send";
 import io from "socket.io-client";
 import { URL } from "../App";
 import moment from 'moment';
+import { useNavigate } from "react-router-dom";
 
 export default function Contacts() {
   const token = JSON.parse(localStorage.getItem("token")) ? JSON.parse(localStorage.getItem("token")) : "";
@@ -110,7 +111,11 @@ export default function Contacts() {
       scrollToBottom()
     }
   }, [messages])
-
+  const navigate = useNavigate()
+  const handleToLogin = ()=>{
+    navigate("/login");
+    setOpen(false);
+  }
   return (
     <>
       <Container>
@@ -122,7 +127,10 @@ export default function Contacts() {
         { messages[0]?.unreadMsg > 0 ? (<MessageCount>{  messages[0]?.unreadMsg }</MessageCount>) : (null) }
       </Container>
       {open && (
-        <ChatBox>
+
+        userId === null ? <ChatBox>
+          <Buttonlogin onClick={handleToLogin}>Login to Continue</Buttonlogin>
+        </ChatBox>:     <ChatBox>
           <Message>
             {messages[0]?.messageDetails.map((msg, index, element) => {
               if (msg.userId !== userId)   
@@ -142,7 +150,7 @@ export default function Contacts() {
                     { msg.content }
                     </p>
                   </MessageBox>
-                  <p style={{marginLeft: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
+                  <p style={{marginLeft: "2px",fontFamily:" 'Taviraj', serif "}}>{ moment(msg.createdAt).format('LT') }</p>
                 </AdminMessage> 
                 
                 </>
@@ -159,7 +167,7 @@ export default function Contacts() {
                   </DateBox>)
                   }
                 <MyMessage key={index}>
-                  <p style={{marginRight: "2px"}}>{ moment(msg.createdAt).format('LT') }</p>
+                  <p style={{marginLeft: "2px",fontFamily:" 'Taviraj', serif "}}>{ moment(msg.createdAt).format('LT') }</p>
                   <MessageBox style={{ backgroundColor: "#f9a392" }}>
                     <p>{ msg.content }</p>
                   </MessageBox>
@@ -177,10 +185,26 @@ export default function Contacts() {
             </button>
           </InputMessage>
         </ChatBox>
+    
       )}
     </>
   );
 }
+const Buttonlogin=styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+ left: 50%;
+  transform: translateX(-50%);
+  background-color: #f9a392 ;
+  padding: 5px;
+  border-radius:14px;
+  color: #fff;
+  &:hover{
+    background-color: #ed8671;
+  }
+
+`
 const Message = styled.div`
   height: 250px;
   padding: 10px;
@@ -338,6 +362,7 @@ const DateBox = styled.div`
     letter-spacing: 0;
     float: left;
     font-size: 1em;
+    font-family: 'Taviraj', serif ;
     word-wrap: break-word;
     text-align: center;
   }

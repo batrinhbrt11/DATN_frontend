@@ -8,6 +8,7 @@ import formatDate from "../../lib/formatDate";
 import { useDispatch, useSelector } from "react-redux";
 import { editInfo, getInfo } from "../../redux/infoSlice";
 import { useForm } from "react-hook-form";
+import { changeAccountPassword } from "../Logon/api";
 export default function Profile() {
   const [edit, setEdit] = useState(false);
   const info = useSelector((state) => state.info.info);
@@ -160,13 +161,40 @@ function ChangePassword() {
   const {
     register,
     formState: { errors },
+    reset,
     handleSubmit,
   } = useForm();
+  const [error,setError] = useState({status:"",msg:""});
+  const changePassword = async (data)=>{
+    if(data.newPassword !== data.reNewPassword){
+      return setError({status:"error" ,msg: "Enter Renew Password is the same New password"})
+    }
+    const res= await changeAccountPassword(data)
+    if(res === true){
+      reset({
+        password:"",
+        newPassword:"",
+        reNewPassword:""
+      }
+      )
+      return setError({status:"success",msg:"Changing password successful"})
+  
+    }else{
+      return setError({status:"error",msg:"Wrong Password!"})
+    }
+    
+  }
   return (
     <div>
       <Title>Change password
       </Title>
-      <InfoForm>
+      <InfoForm onSubmit={handleSubmit(changePassword )}>
+        {
+         ( error && error.status ==="error" ) && (<p style={{color:"red"}}>{error.msg}</p>)      
+        }
+              {
+         ( error && error.status ==="success" ) && (<p style={{color:"#10bf10"}}>{error.msg}</p>)      
+        }
         <UserDetails>
         <InputBox>
             <span>Old password</span>
@@ -179,6 +207,7 @@ function ChangePassword() {
               message: "A minimum password length greater than 6",
             },
           })} />
+            <p>{errors.password?.message}</p>
           </InputBox>
           <InputBox>
             <span>New password</span>
@@ -191,6 +220,7 @@ function ChangePassword() {
               message: "A minimum password length greater than 6",
             },
           })} />
+              <p>{errors.newPassword?.message}</p>
           </InputBox>
           <InputBox>
             <span>Renew password</span>
@@ -203,6 +233,7 @@ function ChangePassword() {
               message: "A minimum password length greater than 6",
             },
           })} />
+           <p>{errors.reNewPassword?.message}</p>
           </InputBox>
           <InputBox>
             <br></br>

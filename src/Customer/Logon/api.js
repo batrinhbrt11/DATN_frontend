@@ -59,3 +59,14 @@ export const getHistoryOfCustomer = async()=>{
       .then((res) => res.data)
       .catch((err) => console.log(err));
 }
+export const changeAccountPassword = async(data)=>{
+  return await axios
+      .post(`${URL}customer/changepwd`,{oldPassword:data.password,newPassword:data.newPassword }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => console.log(err));
+}
