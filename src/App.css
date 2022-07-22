@@ -20,7 +20,7 @@
 }
 .MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
   border: 1px solid #fff;
-  width: 100%;
+  width: 100% !important;
 }
 svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   color: white;

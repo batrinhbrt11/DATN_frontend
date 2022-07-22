@@ -257,6 +257,7 @@ export default function () {
                   setAppointment({ ...appointment, date: newValue });
                   setError("");
                 }}
+                style={{ width: "100%" }}
               />
             </Column>
           </Row>
