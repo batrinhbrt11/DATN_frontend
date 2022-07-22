@@ -30,16 +30,15 @@ export default function () {
     appointmentTypeId: "",
     phoneNumber: "",
     customerName: "",
-    staffId: "",
     customerId: user?.id || "",
     date: new Date(),
   });
   const [error, setError] = useState("");
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
-  const listStaffs = useSelector((state) => state.staffs);
+  // const listStaffs = useSelector((state) => state.staffs);
   const listServices = useSelector((state) => state.services);
-  const [staffs, setStaffs] = useState(listStaffs.staffs);
+  // const [staffs, setStaffs] = useState(listStaffs.staffs);
   const [services, setServices] = useState(listServices.services);
   const [success, setSuccess] = useState("");
   useEffect(() => {
@@ -49,9 +48,9 @@ export default function () {
   useEffect(() => {
     setServices(listServices.services);
   }, [listServices]);
-  useEffect(() => {
-    setStaffs(listStaffs.staffs);
-  }, [listStaffs]);
+  // useEffect(() => {
+  //   setStaffs(listStaffs.staffs);
+  // }, [listStaffs]);
   const isPhoneNumber = (phoneNumber) => {
     var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if (vnf_regex.test(phoneNumber) === false) {
@@ -82,9 +81,7 @@ export default function () {
     if (appointment.appointmentTypeId === "") {
       return setError("Please choosing service!");
     }
-    if (appointment.staffId === "") {
-      return setError("Please choosing staff!");
-    }
+ 
     if (!isValidDay(appointment.date)) {
       return setError(
         "Time is invalid! Please booking appointment after 2 hours"
@@ -97,7 +94,6 @@ export default function () {
         phoneNumber: "",
         customerName: "",
         customerId: "",
-        staffId: "",
         date: new Date(),
       });
       setSuccess("Successfully added Appointment");
@@ -176,7 +172,7 @@ export default function () {
         )}
 
         <Row>
-          <Column>
+          <Column style={{ width: "100%" }}>
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
@@ -211,7 +207,7 @@ export default function () {
               </Select>
             </FormControl>
           </Column>
-          <Column>
+          {/* <Column>
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
@@ -245,7 +241,7 @@ export default function () {
                   ))}
               </Select>
             </FormControl>
-          </Column>
+          </Column> */}
         </Row>
         <LocalizationProvider
           dateAdapter={AdapterDateFns}

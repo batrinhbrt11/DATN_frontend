@@ -47,7 +47,8 @@ h6.d-inline-block.text-white.text-uppercase.bg-primary.py-1.px-2 {
   color: #000 !important;
 }
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
-  color: #fff !important;
+  color: #000 !important;
+  font-size: 20px !important;
 }
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input:focus {
   border: white !important;

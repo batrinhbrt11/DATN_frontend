@@ -34,6 +34,10 @@ export const Form = styled.form`
   -webkit-backdrop-filter: blur(3.4px);
   border: 1px solid rgba(34, 34, 34, 0.3);
   background: #fff;
+  width: 600px;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const ContentContainer = styled.div`
