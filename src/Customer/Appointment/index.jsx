@@ -249,7 +249,7 @@ export default function () {
         >
           <Row>
             <Column style={{ width: "100%" }}>
-              <CustomDateTimePicker
+              <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 label="Time"
                 value={appointment.date}
@@ -269,9 +269,7 @@ export default function () {
     </Container>
   );
 }
-const CustomDateTimePicker= styled.DateTimePicker`
-  width: 100%;
-`
+
 const Container = styled.div`
   background: linear-gradient(rgba(33, 30, 28, 0.7), rgba(33, 40, 28, 0.7)),
     url(img/carousel-1.jpg);
