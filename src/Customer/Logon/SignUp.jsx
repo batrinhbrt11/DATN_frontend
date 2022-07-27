@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SignUpForm } from "./styled";
 import { useForm } from "react-hook-form";
 import { customerRegister } from "./api";
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
 export default function SignUp({ signIn }) {
   const {
     register,
@@ -43,19 +47,43 @@ export default function SignUp({ signIn }) {
     });
     setErrorPassword("");
     setSuccess("Successfully Register. Please Sign In!");
+    setOpen(true)
   };
+
+
+  const [open, setOpen] =useState(false);
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setOpen(false)
+    }, 3000)
+    return () => {
+      clearTimeout(timeId)
+    }
+  }, [success]);
   return (
     <SignUpForm signIn={signIn}>
       <form onSubmit={handleSubmit(onRegister)}>
         <h3>Sign Up</h3>
         <p>{errorPassword}</p>
-        <p
-          style={{
-            color: "#1aed64",
-          }}
+        <Collapse in={open}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
         >
           {success}
-        </p>
+        </Alert>
+      </Collapse>
         <input
           type="text"
           placeholder="Email"

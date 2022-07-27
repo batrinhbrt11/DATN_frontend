@@ -12,7 +12,10 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { getAllStaff } from "../../redux/staffSlice";
 import { getAllService } from "../../redux/serviceSlice";
 import { makeAppointment } from "./api";
-
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
 const locale = enLocale;
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -30,15 +33,16 @@ export default function () {
     appointmentTypeId: "",
     phoneNumber: "",
     customerName: "",
+    staffId:"",
     customerId: user?.id || "",
     date: new Date(),
   });
   const [error, setError] = useState("");
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
-  // const listStaffs = useSelector((state) => state.staffs);
+  const listStaffs = useSelector((state) => state.staffs);
   const listServices = useSelector((state) => state.services);
-  // const [staffs, setStaffs] = useState(listStaffs.staffs);
+  const [staffs, setStaffs] = useState(listStaffs.staffs);
   const [services, setServices] = useState(listServices.services);
   const [success, setSuccess] = useState("");
   useEffect(() => {
@@ -48,9 +52,9 @@ export default function () {
   useEffect(() => {
     setServices(listServices.services);
   }, [listServices]);
-  // useEffect(() => {
-  //   setStaffs(listStaffs.staffs);
-  // }, [listStaffs]);
+  useEffect(() => {
+    setStaffs(listStaffs.staffs);
+  }, [listStaffs]);
   const isPhoneNumber = (phoneNumber) => {
     var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if (vnf_regex.test(phoneNumber) === false) {
@@ -93,12 +97,27 @@ export default function () {
         appointmentTypeId: "",
         phoneNumber: "",
         customerName: "",
-        customerId: "",
+        customerId:user?.id || "",
+        staffId:"",
         date: new Date(),
       });
       setSuccess("Successfully added Appointment");
+      setOpen(true)
+    }
+    else {
+      return setError(res.data);
     }
   };
+  const [open, setOpen] =useState(false);
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setOpen(false)
+    }, 3000)
+    return () => {
+      clearTimeout(timeId)
+    }
+  }, [success]);
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -107,7 +126,8 @@ export default function () {
             Make Appointment
           </h1>
         </Row>
-        {error !== "" && (
+        
+        {error !== "" ? (
           <Row style={{ width: "100%" }}>
             <p
               style={{
@@ -121,22 +141,26 @@ export default function () {
               {error}
             </p>
           </Row>
-        )}
-        {success !== "" && (
-          <Row style={{ width: "100%" }}>
-            <p
-              style={{
-                width: "100%",
-                textAlign: "center",
-                color: "#1aed64",
-                fontWeight: "100",
-                fontSize: "1.2rem",
+        ) :null}
+      <Collapse in={open}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpen(false);
               }}
             >
-              {success}
-            </p>
-          </Row>
-        )}
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          {success}
+        </Alert>
+      </Collapse>
 
         {token === null && (
           <Row>
@@ -172,7 +196,7 @@ export default function () {
         )}
 
         <Row>
-          <Column style={{ width: "100%" }}>
+          <Column >
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
@@ -207,7 +231,7 @@ export default function () {
               </Select>
             </FormControl>
           </Column>
-          {/* <Column>
+          <Column>
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
@@ -241,7 +265,7 @@ export default function () {
                   ))}
               </Select>
             </FormControl>
-          </Column> */}
+          </Column>
         </Row>
         <LocalizationProvider
           dateAdapter={AdapterDateFns}
@@ -249,7 +273,7 @@ export default function () {
         >
           <Row>
             <Column style={{ width: "100%" }}>
-              <CustomDateTimePicker
+              <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 label="Time"
                 value={appointment.date}
@@ -269,9 +293,7 @@ export default function () {
     </Container>
   );
 }
-const CustomDateTimePicker= styled.DateTimePicker`
-  width: 100%;
-`
+
 const Container = styled.div`
   background: linear-gradient(rgba(33, 30, 28, 0.7), rgba(33, 40, 28, 0.7)),
     url(img/carousel-1.jpg);
@@ -294,17 +316,7 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const SelectBox = styled.select`
-  padding: 14px;
-  background-color: transparent;
-  border: 1px solid #999;
-  font-size: 1.5rem;
-  color: #000;
-  width: 100%;
-  border-radius: 5px;
-  max-height: 100px;
-  overflow-y: scroll;
-`;
+
 const ServicesBtn = styled.button`
   border-radius: 4px;
   background-color: #f9a392;
