@@ -66,10 +66,15 @@ export default function ShowCustomer() {
       setData([...data.filter((d) => d.voucherCustomerId !== id)]);
     }
   };
-  const handleAddVoucher = () => {
-    addVouchers.map((v) => giveVoucherForCustomer(v._id, id));
-    setOpenDialog(false);
-    window.location.reload();
+  const handleAddVoucher =  () => {
+    addVouchers.map((v) => {
+      giveVoucherForCustomer(v._id, id);
+    });
+    
+    setTimeout(() => {
+      getListVoucher(); 
+      handleCloseDialog();
+    }, 3000);
   };
   return (
     <TableContainer>
