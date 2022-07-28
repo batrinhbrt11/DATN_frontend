@@ -23,7 +23,7 @@
   width: 100% !important;
 }
 svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
-  color: white;
+  color: #000;
 }
 h6.d-inline-block.text-white.text-uppercase.bg-primary.py-1.px-2 {
   background-color: rgb(249, 163, 146) !important;
@@ -71,4 +71,7 @@ h6.d-inline-block.text-white.text-uppercase.bg-primary.py-1.px-2 {
     width: 100% !important;
     margin: 0  !important;
   }
+}
+button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root,span.MuiTypography-root.MuiTypography-caption.css-1w13o7u-MuiTypography-root{
+  font-size: 14px;
 }

@@ -12,10 +12,11 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { getAllStaff } from "../../redux/staffSlice";
 import { getAllService } from "../../redux/serviceSlice";
 import { makeAppointment } from "./api";
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import Collapse from '@mui/material/Collapse';
-import CloseIcon from '@mui/icons-material/Close';
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import CloseIcon from "@mui/icons-material/Close";
+import { MobileDateTimePicker } from "@mui/x-date-pickers-pro";
 const locale = enLocale;
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,28 +34,21 @@ export default function () {
     appointmentTypeId: "",
     phoneNumber: "",
     customerName: "",
-    staffId:"",
     customerId: user?.id || "",
     date: new Date(),
   });
   const [error, setError] = useState("");
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
-  const listStaffs = useSelector((state) => state.staffs);
   const listServices = useSelector((state) => state.services);
-  const [staffs, setStaffs] = useState(listStaffs.staffs);
   const [services, setServices] = useState(listServices.services);
   const [success, setSuccess] = useState("");
   useEffect(() => {
-    dispatch(getAllStaff());
     dispatch(getAllService());
   }, [dispatch]);
   useEffect(() => {
     setServices(listServices.services);
   }, [listServices]);
-  useEffect(() => {
-    setStaffs(listStaffs.staffs);
-  }, [listStaffs]);
   const isPhoneNumber = (phoneNumber) => {
     var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
     if (vnf_regex.test(phoneNumber) === false) {
@@ -85,7 +79,7 @@ export default function () {
     if (appointment.appointmentTypeId === "") {
       return setError("Please choosing service!");
     }
- 
+
     if (!isValidDay(appointment.date)) {
       return setError(
         "Time is invalid! Please booking appointment after 2 hours"
@@ -97,25 +91,23 @@ export default function () {
         appointmentTypeId: "",
         phoneNumber: "",
         customerName: "",
-        customerId:user?.id || "",
-        staffId:"",
+        customerId: user?.id || "",
         date: new Date(),
       });
       setSuccess("Successfully added Appointment");
-      setOpen(true)
-    }
-    else {
+      setOpen(true);
+    } else {
       return setError(res.data);
     }
   };
-  const [open, setOpen] =useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const timeId = setTimeout(() => {
-      setOpen(false)
-    }, 3000)
+      setOpen(false);
+    }, 3000);
     return () => {
-      clearTimeout(timeId)
-    }
+      clearTimeout(timeId);
+    };
   }, [success]);
 
   return (
@@ -126,7 +118,7 @@ export default function () {
             Make Appointment
           </h1>
         </Row>
-        
+
         {error !== "" ? (
           <Row style={{ width: "100%" }}>
             <p
@@ -141,26 +133,26 @@ export default function () {
               {error}
             </p>
           </Row>
-        ) :null}
-      <Collapse in={open}>
-        <Alert
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          {success}
-        </Alert>
-      </Collapse>
+        ) : null}
+        <Collapse in={open}>
+          <Alert
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            {success}
+          </Alert>
+        </Collapse>
 
         {token === null && (
           <Row>
@@ -196,7 +188,7 @@ export default function () {
         )}
 
         <Row>
-          <Column >
+          <Column style={{ width: "100%" }}>
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
@@ -231,7 +223,8 @@ export default function () {
               </Select>
             </FormControl>
           </Column>
-          <Column>
+
+          {/* <Column>
             <FormControl fullWidth>
               <InputLabel
                 id="demo-simple-select-label"
@@ -265,7 +258,7 @@ export default function () {
                   ))}
               </Select>
             </FormControl>
-          </Column>
+          </Column> */}
         </Row>
         <LocalizationProvider
           dateAdapter={AdapterDateFns}
@@ -273,14 +266,20 @@ export default function () {
         >
           <Row>
             <Column style={{ width: "100%" }}>
-              <DateTimePicker
-                renderInput={(props) => <TextField {...props} />}
-                label="Time"
-                value={appointment.date}
+              <MobileDateTimePicker
+                value={new Date()}
                 onChange={(newValue) => {
-                  setAppointment({ ...appointment, date: newValue });
-                  setError("");
+                  setAppointment({
+                    ...appointment,
+                    date: newValue,
+                  });
                 }}
+                label="Date Time"
+                onError={console.log}
+                minDate={new Date("2018-01-01T00:00")}
+                inputFormat="yyyy/MM/dd hh:mm a"
+                mask="___/__/__ __:__ _M"
+                renderInput={(params) => <TextField {...params} />}
               />
             </Column>
           </Row>
@@ -315,7 +314,6 @@ const Input = styled.input`
   width: 100%;
   border-radius: 5px;
 `;
-
 
 const ServicesBtn = styled.button`
   border-radius: 4px;
