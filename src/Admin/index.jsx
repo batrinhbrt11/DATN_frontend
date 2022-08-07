@@ -133,9 +133,9 @@ export default function () {
               element={<ShowCustomer />}
             ></Route>
             {/* staffs */}
-            <Route path="/staffs" element={<Staff />}></Route>
-            <Route path="/staffs/add" element={<AddStaff />}></Route>
-            <Route path="/staffs/:id" element={<ShowStaff />}></Route>
+            <Route path="/staffs" element={user.role === "admin"?<Staff /> : null}></Route>
+            <Route path="/staffs/add" element={user.role === "admin"?<AddStaff /> : null}></Route>
+            <Route path="/staffs/:id" element={user.role === "admin"?<ShowStaff /> : null}></Route>
             {/* voucher */}
             <Route path="/vouchers" element={<Voucher />}></Route>
             <Route path="/vouchers/add" element={<AddVoucher />}></Route>
