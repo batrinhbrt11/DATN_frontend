@@ -58,7 +58,7 @@ export default function ShowServices() {
   return (
     <TableContainer>
       <TableHeader>
-        <h2>Staff's Information</h2>
+        <h2>Service's Information</h2>
         <Button
           variant="contained"
           className="edit-btn"

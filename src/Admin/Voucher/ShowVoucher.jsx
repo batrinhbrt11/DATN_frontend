@@ -62,7 +62,7 @@ export default function ShowVoucher() {
   return (
     <TableContainer>
       <TableHeader>
-        <h2>Staff's Information</h2>
+        <h2>Voucher's Information</h2>
         <Button
           variant="contained"
           className="edit-btn"
