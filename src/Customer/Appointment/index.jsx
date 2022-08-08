@@ -37,6 +37,7 @@ export default function () {
     customerId: user?.id || "",
     date: new Date(),
   });
+
   const [error, setError] = useState("");
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
@@ -104,6 +105,7 @@ export default function () {
   useEffect(() => {
     const timeId = setTimeout(() => {
       setOpen(false);
+      setSuccess("");
     }, 3000);
     return () => {
       clearTimeout(timeId);
@@ -267,12 +269,13 @@ export default function () {
           <Row>
             <Column style={{ width: "100%" }}>
               <MobileDateTimePicker
-                value={new Date()}
+                value={appointment.date}
                 onChange={(newValue) => {
                   setAppointment({
                     ...appointment,
                     date: newValue,
                   });
+                  console.log(newValue)
                 }}
                 label="Date Time"
                 onError={console.log}

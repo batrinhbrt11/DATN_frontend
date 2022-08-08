@@ -2,8 +2,10 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Carousel } from "react-bootstrap";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
+  const navigate = useNavigate();
   return (
     <Carousel fade={true} pause={false} id="header-carousel">
       <Carousel.Item interval={2000}>
@@ -19,7 +21,7 @@ export default function () {
             Lorem rebum magna dolore amet lorem eirmod magna erat diam stet.
             Sadips duo stet amet amet ndiam elitr ipsum labore diam
           </p>
-          <button>MAKE APPOINTMENT</button>
+          <button     onClick={() => navigate("/book")}>MAKE APPOINTMENT</button>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={2000}>
@@ -35,7 +37,7 @@ export default function () {
             Lorem rebum magna dolore amet lorem eirmod magna erat diam stet.
             Sadips duo stet amet amet ndiam elitr ipsum labore diam
           </p>
-          <button>MAKE APPOINTMENT</button>
+          <button onClick={() => navigate("/book")} >MAKE APPOINTMENT</button>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={2000}>
@@ -51,7 +53,7 @@ export default function () {
             Lorem rebum magna dolore amet lorem eirmod magna erat diam stet.
             Sadips duo stet amet amet ndiam elitr ipsum labore diam
           </p>
-          <button>MAKE APPOINTMENT</button>
+          <button onClick={() => navigate("/book")}>MAKE APPOINTMENT</button>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
