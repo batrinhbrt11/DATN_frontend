@@ -16,7 +16,7 @@ export default function CustomersForm() {
       name: res.name,
       email: res.email,
       phoneNumber: res.phoneNumber,
-      birth: new Date(res.birth),
+      birth: formatDate(new Date(res.birth)),
     });
   };
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function CustomersForm() {
       name: "",
       email: "",
       phoneNumber: "",
-      birth: null,
+      birth: formatDate(new Date(customer.birth)),
     },
   });
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ export default function CustomersForm() {
         status: 200,
       });
       setOpenSnackBar(true);
-      navigate(-1);
+      setTimeout(()=>navigate(-1), 3000)
     } else {
       setStateRes({
         msg: "Update User Fail",
@@ -111,7 +111,7 @@ export default function CustomersForm() {
             <span>Birthday</span>
             <input
               type="date"
-              value={formatDate(new Date(customer.birth))}
+              defaultValue={formatDate(new Date(customer.birth))}
               {...register("birth", {
                 required: "Birthday is not empty",
               })}

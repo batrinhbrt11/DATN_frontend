@@ -118,7 +118,7 @@ export default function ShowCustomer() {
             <span>Birthday</span>
             <input
               type="date"
-              value={formatDate(new Date(customer.birth))}
+              value={customer.birth && formatDate(new Date(customer.birth))}
               disabled
             />
           </InputBox>

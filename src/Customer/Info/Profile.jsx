@@ -26,7 +26,7 @@ export default function Profile() {
         <h3 style={{ fontWeight: "900" }}>Your Information </h3>
           <Button
           variant="contained"
-          endIcon={<EditIcon />}
+          endIcon={<EditIcon sx={{color:"#fff"}} />}
           className="edit-btn"
           onClick={() => setEdit(!edit)}
           sx={{ fontSize: "1.5rem", padding: "10px",marginRight:"10px" }}
@@ -49,13 +49,24 @@ function EditInfo({ user }) {
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const [msg,setMsg] = useState();
   const updateInfo = async (data) => {
-    await dispatch(editInfo({ userId: user._id, data: data }));
+    const res = await dispatch(editInfo({ userId: user._id, data: data }));
+    
+    if(res.payload.status === 200){
+      setMsg("Updating successful");
+      
+    }
+    setTimeout(()=>setMsg(null), 3000)
   };
+
   return (
     <ContentContainer>
       <Title>Edit your Profile    </Title>
       <InfoForm onSubmit={handleSubmit(updateInfo)}>
+        {
+         <p style={{color:"#10bf10"}}>{msg}</p>
+        }
         <UserDetails>
           <InputBox>
             <span>Email</span>
@@ -118,7 +129,7 @@ function Information({ user }) {
     <ContentContainer >
       <Title>Your Profile <Button
           variant="contained"
-          endIcon={<EditIcon />}
+          endIcon={<EditIcon sx={{color:"#fff"}}/>}
           className="edit-btn"
           onClick={()=>setChange(!change)}
           sx={{ fontSize: "1.5rem", padding: "10px" }}

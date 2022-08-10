@@ -34,7 +34,7 @@ export const editInfo = createAsyncThunk(
     };
     return await axios(config)
       .then((res) => {
-        return res.data;
+        return res;
       })
       .catch(function (error) {
         console.log(error);
@@ -75,7 +75,7 @@ const infoSlice = createSlice({
     },
     [editInfo.fulfilled]: (state, action) => {
       state.loading = false;
-      state.info = action.payload;
+      state.info = action.payload.data;
     },
     [editInfo.rejected]: (state, action) => {
       state.loading = false;
